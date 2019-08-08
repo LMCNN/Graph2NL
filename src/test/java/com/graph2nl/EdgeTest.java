@@ -10,7 +10,12 @@ public class EdgeTest {
 
     @Before
     public void setup(){
-        e1 = new Edge(1, 2, "called");
+        e1 = new Edge(0,1, 2, "called");
+    }
+
+    @Test
+    public void testGetId(){
+        Assert.assertTrue(e1.getId() == 0);
     }
 
     @Test
@@ -30,12 +35,14 @@ public class EdgeTest {
 
     @Test
     public void testEquals() {
-        Edge tmpE = new Edge(1, 2, "call");
-        Edge tmpE2 = new Edge(2, 1, "called");
+        Edge tmpE = new Edge(1,1, 2, "call");
+        Edge tmpE2 = new Edge(2,2, 1, "called");
+        Edge tmpE3 = new Edge(0,2, 1, "called");
         Assert.assertTrue(e1.equals(e1));
         Assert.assertFalse(e1.equals(new Object()));
         Assert.assertFalse(e1.equals(tmpE));
-        Assert.assertTrue(e1.equals(tmpE2));
+        Assert.assertFalse(e1.equals(tmpE2));
+        Assert.assertTrue(e1.equals(tmpE3));
     }
 
     @Test

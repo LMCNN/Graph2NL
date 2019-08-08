@@ -9,6 +9,7 @@ import java.util.Objects;
  * author: Mingchi Li
  */
 public class Edge {
+    private Integer id;
     private Integer from;
     private Integer to;
     private String label;
@@ -19,10 +20,19 @@ public class Edge {
      * @param to Edge termination point
      * @param label Edge label
      */
-    public Edge(Integer from, Integer to, String label) {
+    public Edge(Integer id, Integer from, Integer to, String label) {
+        this.id = id;
         this.from = from;
         this.to = to;
         this.label = label;
+    }
+
+    /**
+     * Get the vertex Id of this edge
+     * @return current edge id
+     */
+    public Integer getId() {
+        return id;
     }
 
     /**
@@ -50,7 +60,7 @@ public class Edge {
     }
 
     /**
-     * If two edges have the same label, then these two edge are the same
+     * If two edges have the same id, then these two edge are the same
      * @param o the other edge
      * @return Whether these two edges are equal
      */
@@ -59,7 +69,7 @@ public class Edge {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Edge edge = (Edge) o;
-        return Objects.equals(label, edge.label);
+        return Objects.equals(id, edge.id) ;
     }
 
     /**
@@ -69,5 +79,14 @@ public class Edge {
     @Override
     public String toString() {
         return from + "-" + label + "->" + to;
+    }
+
+    /**
+     * the hashCode method
+     * @return the hash code
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hash(from, to, label);
     }
 }

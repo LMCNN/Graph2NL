@@ -10,7 +10,8 @@ import java.util.*;
  */
 public class Vertex {
     private Integer id;
-    private Map<String, Edge> edgeMap;
+    private Integer outDegree;
+    private Map<String, List<Edge>> edgeMap;
     private String label;
     private String name;
 
@@ -25,6 +26,15 @@ public class Vertex {
         this.edgeMap = new HashMap<>();
         this.label = label;
         this.name = name;
+        this.outDegree = 0;
+    }
+
+    /**
+     * Gets the out degree of the vertex
+     * @return the out degree of current vertex
+     */
+    public Integer getOutDegree() {
+        return outDegree;
     }
 
     /**
@@ -49,5 +59,32 @@ public class Vertex {
      */
     public String getName() {
         return name;
+    }
+
+    /**
+     * Add a new edge to this vertex
+     * @param e the new edge
+     * @return this new edge
+     */
+    public Edge addEdge(Edge e){
+        String eLabel = e.getLabel();
+        if (!edgeMap.containsKey(eLabel)){
+            List<Edge> putList = new ArrayList<>();
+            putList.add(e);
+            edgeMap.put(eLabel, putList);
+        }
+        else{
+            edgeMap.get(eLabel).add(e);
+        }
+        outDegree++;
+        return e;
+    }
+
+    /**
+     * Get all edges of this vertex
+     * @return a map of edges
+     */
+    public Map<String, List<Edge>> getEdgeMap(){
+        return edgeMap;
     }
 }
