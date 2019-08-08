@@ -136,18 +136,19 @@ public class Digraph {
             if (currV.getEdgeMap().containsKey("是")){
                 List<Edge> listV = currV.getEdgeMap().get("是");
                 for (Edge e : listV) {
-                    System.out.println(currV.getLabel() + " " + currV.getName() + " 是 " + vertexMap.get(e.getTo()).getName() + ".");
+                    System.out.println(currV.getLabel() + ": " + currV.getName() + " 是 "
+                            + vertexMap.get(e.getTo()).getName() + ".");
                 }
             }
             for (String label : currV.getEdgeMap().keySet()){
                 if (!label.equals("是")){
                     List<Edge> edgeList = currV.getEdgeMap().get(label);
                     int size = edgeList.size();
-                    System.out.print(currV.getLabel() + " " + currV.getName() + " " + label + " 到 ");
-                    System.out.print("[");
+                    System.out.print(currV.getLabel() + ": " + currV.getName() + " " + label);
+                    System.out.print(" [");
                     for (Edge e : edgeList){
                         Vertex distV = vertexMap.get(e.getTo());
-                        System.out.print(distV.getLabel() + " " + distV.getName() + "; ");
+                        System.out.print(distV.getLabel() + ": " + distV.getName() + "; ");
                     }
                     System.out.println("]");
                 }
