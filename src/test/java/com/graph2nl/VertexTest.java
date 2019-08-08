@@ -30,6 +30,14 @@ public class VertexTest {
         testV.addEdge(e3);
         testV.addEdge(e4);
         Assert.assertTrue(testV.getOutDegree() == 4);
-        System.out.println(testV.getEdgeMap().get("visit").get(1).toString());
+        String result = "Vertex\n" +
+                "{\n" +
+                "\tid=2, \n" +
+                "\toutDegree=4, \n" +
+                "\tedgeMap={called=[2-called->3], visit=[2-visit->4, 2-visit->5], message=[2-message->3]}, \n" +
+                "\tlabel='User', \n" +
+                "\tname='Mingchi'\n" +
+                "}";
+        Assert.assertEquals(testV.toString(), result);
     }
 }

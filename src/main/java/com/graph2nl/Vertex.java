@@ -87,4 +87,46 @@ public class Vertex {
     public Map<String, List<Edge>> getEdgeMap(){
         return edgeMap;
     }
+
+    /**
+     * Determine whether two vertices are equal
+     * If they have same id they are equal
+     * @param o the other vertex
+     * @return the result
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Vertex vertex = (Vertex) o;
+        return id.equals(vertex.id);
+    }
+
+    /**
+     * Hash method
+     * @return hash value of the id
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+
+    @Override
+    public String toString() {
+        return "Vertex\n{" +
+                "\n\tid=" + id +
+                ", \n\toutDegree=" + outDegree +
+                ", \n\tedgeMap=" + edgeMap +
+                ", \n\tlabel='" + label + '\'' +
+                ", \n\tname='" + name + '\'' +
+                "\n}";
+    }
+
+    /**
+     * Helper method to print the edge map
+     * @return String of the edge map
+     */
+    private String printMap(){
+        return null;
+    }
 }
