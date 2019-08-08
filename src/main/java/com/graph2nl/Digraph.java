@@ -1,9 +1,6 @@
 package com.graph2nl;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  *  This is the Direct Graph class
@@ -38,6 +35,7 @@ public class Digraph {
      * @return a list of vertex
      */
     public List<Integer> getOutVertices() {
+        updateOut();
         return outVertices;
     }
 
@@ -53,10 +51,10 @@ public class Digraph {
     /**
      * Update the out vertex list
      */
-    public void updateOut(){
+    private void updateOut(){
         for (Integer key : vertexMap.keySet()) {
             Vertex tmp = vertexMap.get(key);
-            if (tmp.getOutDegree() > 0)
+            if (tmp.getOutDegree() > 0 && !outVertices.contains(key))
                 outVertices.add(key);
         }
     }
@@ -67,17 +65,60 @@ public class Digraph {
      * @return this edge
      */
     public Edge addEdge(Edge e){
-        Integer eId = e.getFrom();
-        Vertex currV = getVertexById(eId);
+        Integer fromId = e.getFrom();
+        Vertex currV = getVertexById(fromId);
         currV.addEdge(e);
         return e;
     }
 
+    /**
+     * The toString method
+     * @return the String contain all information of this digraph
+     */
     @Override
     public String toString() {
+        updateOut();
         return "Digraph\n{\n" +
                 "\t\nvertexMap=" + vertexMap.toString() +
                 ", \noutVertices=" + outVertices +
                 "\n}";
+    }
+
+    /**
+     * Describe this graph using english
+     */
+    public void toEnglish(){
+        updateOut();
+        Integer numOut = outVertices.size();
+        System.out.print("We are going to describe " + numOut);
+        if (numOut <= 1){
+            System.out.println(" vertex:");
+        }
+        else {
+            System.out.println(" vertices:");
+        }
+        for (int i = 0; i < numOut; i++){
+            System.out.println("-----------------------------------");
+            Vertex currV = getVertexById(i);
+             if (currV.getEdgeMap().containsKey("is")){
+                 List<Edge> listV = currV.getEdgeMap().get("is");
+                 for (Edge e : listV) {
+                     System.out.println(currV.getLabel() + " " + currV.getName() + " is " + vertexMap.get(e.getTo()).getName() + ".");
+                 }
+             }
+             for (String label : currV.getEdgeMap().keySet()){
+                 if (!label.equals("is")){
+                     List<Edge> edgeList = currV.getEdgeMap().get(label);
+                     int size = edgeList.size();
+                     System.out.print(currV.getName() + " " + label + " to ");
+                     System.out.print("[");
+                     for (Edge e : edgeList){
+                         Vertex distV = vertexMap.get(e.getTo());
+                         System.out.print(distV.getLabel() + " " + distV.getName() + "; ");
+                     }
+                     System.out.println("]");
+                 }
+             }
+        }
     }
 }
