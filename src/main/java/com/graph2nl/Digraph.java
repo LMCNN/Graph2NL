@@ -99,7 +99,7 @@ public class Digraph {
         }
         for (int i = 0; i < numOut; i++){
             System.out.println("-----------------------------------");
-            Vertex currV = getVertexById(i);
+            Vertex currV = getVertexById(outVertices.get(i));
              if (currV.getEdgeMap().containsKey("is")){
                  List<Edge> listV = currV.getEdgeMap().get("is");
                  for (Edge e : listV) {
@@ -110,7 +110,7 @@ public class Digraph {
                  if (!label.equals("is")){
                      List<Edge> edgeList = currV.getEdgeMap().get(label);
                      int size = edgeList.size();
-                     System.out.print(currV.getName() + " " + label + " to ");
+                     System.out.print(currV.getLabel() + " " + currV.getName() + " " + label + " to ");
                      System.out.print("[");
                      for (Edge e : edgeList){
                          Vertex distV = vertexMap.get(e.getTo());
