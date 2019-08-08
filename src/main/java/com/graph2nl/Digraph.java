@@ -121,4 +121,37 @@ public class Digraph {
              }
         }
     }
+
+    /**
+     * Describe this graph using Chinese
+     */
+    public void toChinese(){
+        updateOut();
+        Integer numOut = outVertices.size();
+        System.out.println("我们要描述以下" + numOut + "个节点：");
+
+        for (int i = 0; i < numOut; i++){
+            System.out.println("-----------------------------------");
+            Vertex currV = getVertexById(outVertices.get(i));
+            if (currV.getEdgeMap().containsKey("是")){
+                List<Edge> listV = currV.getEdgeMap().get("是");
+                for (Edge e : listV) {
+                    System.out.println(currV.getLabel() + " " + currV.getName() + " 是 " + vertexMap.get(e.getTo()).getName() + ".");
+                }
+            }
+            for (String label : currV.getEdgeMap().keySet()){
+                if (!label.equals("是")){
+                    List<Edge> edgeList = currV.getEdgeMap().get(label);
+                    int size = edgeList.size();
+                    System.out.print(currV.getLabel() + " " + currV.getName() + " " + label + " 到 ");
+                    System.out.print("[");
+                    for (Edge e : edgeList){
+                        Vertex distV = vertexMap.get(e.getTo());
+                        System.out.print(distV.getLabel() + " " + distV.getName() + "; ");
+                    }
+                    System.out.println("]");
+                }
+            }
+        }
+    }
 }
