@@ -12,20 +12,32 @@ public class ProjectRunner {
             Digraph dg = new Digraph();
             if (args[0].equals("-g") && args.length == 3){
                 dg = ReadFromFile.parseGEXF(args[1]);
+
+                if (args[2].equals("-en")){
+                    dg.toEnglish();
+                }
+                else if (args[2].equals("-zh")){
+                    dg.toChinese();
+                }
+                else {
+                    System.err.println("Please select the description language");
+                }
             }
             else if (args[0].equals("-ve") && args.length == 4){
                 dg = ReadFromFile.ReadFromCSV(args[1], args[2]);
+
+                if (args[3].equals("-en")){
+                    dg.toEnglish();
+                }
+                else if (args[3].equals("-zh")){
+                    dg.toChinese();
+                }
+                else {
+                    System.err.println("Please select the description language");
+                }
             }
 
-            if (args[2].equals("-en")){
-                dg.toEnglish();
-            }
-            else if (args[3].equals("-zh")){
-                dg.toChinese();
-            }
-            else {
-                System.err.println("Please select the description language");
-            }
+
         }
         catch (Exception e){
             System.err.println("-g (GEXF file name) (-zh|-en)");
