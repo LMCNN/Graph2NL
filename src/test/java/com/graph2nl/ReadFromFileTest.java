@@ -6,8 +6,7 @@ public class ReadFromFileTest {
     @Test
     public void readFromCSV1() {
         Digraph dg;
-        dg = ReadFromFile.ReadFromCSV("C:\\Users\\lmcn\\Documents\\GitHub\\Graph2NL\\src\\test.v",
-                "C:\\Users\\lmcn\\Documents\\GitHub\\Graph2NL\\src\\test.e");
+        dg = ReadFromFile.ReadFromCSV("src/test.v", "src/test.e");
         //System.out.println(dg.toString());
         dg.toEnglish();
     }
@@ -15,8 +14,8 @@ public class ReadFromFileTest {
     @Test
     public void readFromCSV2() {
         Digraph dg;
-        dg = ReadFromFile.ReadFromCSV("C:\\Users\\lmcn\\Documents\\GitHub\\Graph2NL\\src\\testCN.v",
-                "C:\\Users\\lmcn\\Documents\\GitHub\\Graph2NL\\src\\testCN.e");
+        dg = ReadFromFile.ReadFromCSV("src/testCN.v",
+                "src/testCN.e");
         //System.out.println(dg.toString());
         dg.toChinese();
     }
