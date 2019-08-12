@@ -16,6 +16,8 @@ import java.io.*;
  * date: 2019.8.8
  */
 public class ReadFromFile {
+
+    //This function can parse .e .v file and convert them into a Digraph object
     public static Digraph ReadFromCSV(String vFileName, String eFileName){
         Digraph dg = new Digraph();
         File vFile = new File(vFileName);
@@ -67,12 +69,10 @@ public class ReadFromFile {
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
             Document doc = dBuilder.parse(inputFile);
             doc.getDocumentElement().normalize();
-            System.out.println("Root element :" + doc.getDocumentElement().getNodeName());
             NodeList nList = doc.getElementsByTagName("node");
             NodeList eList = doc.getElementsByTagName("edge");
-            System.out.println("----------------------------");
             System.out.println("There are " + nList.getLength() + " of vertex.");
-            System.out.println("There are " + eList.getLength() + " of edge.");
+            System.out.println("There are " + eList.getLength() + " of edge.\n");
 
             //Parse Vertices and add them to the graph object
             for (int i = 0; i < nList.getLength(); i++) {
