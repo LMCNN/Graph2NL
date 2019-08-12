@@ -11,18 +11,18 @@ public class ReadFromFileTest {
 //        dg.toEnglish();
 //    }
 //
-//    @Test
-//    public void readFromCSV2() {
-//        Digraph dg;
-//        dg = ReadFromFile.ReadFromCSV("src/testCN.v",
-//                "src/testCN.e");
-//        //System.out.println(dg.toString());
-//        dg.toChinese();
-//    }
-
     @Test
-    public void testParseGEXF(){
-        Digraph dg = ReadFromFile.parseGEXF("src/data.gexf");
-        dg.toEnglish();
+    public void readFromCSV2() {
+        Digraph dg;
+        dg = ReadFromFile.ReadFromCSV("src/testCN.v",
+                "src/testCN.e");
+        //System.out.println(dg.toString());
+        dg.toChinese();
     }
+
+//    @Test
+//    public void testParseGEXF(){
+//        Digraph dg = ReadFromFile.parseGEXF("src/data.gexf");
+//        dg.toEnglish();
+//    }
 }
