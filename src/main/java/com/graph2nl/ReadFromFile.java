@@ -1,5 +1,12 @@
 package com.graph2nl;
 
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.*;
 
 /**
@@ -51,11 +58,54 @@ public class ReadFromFile {
         return dg;
     }
 
-    public static Digraph parseGEXF(){
+    public static Digraph parseGEXF(String fileName){
         Digraph dg = new Digraph();
+        File inputFile = new File(fileName);
+        DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 
+        try {
+            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+            Document doc = dBuilder.parse(inputFile);
+            doc.getDocumentElement().normalize();
+            System.out.println("Root element :" + doc.getDocumentElement().getNodeName());
+            NodeList nList = doc.getElementsByTagName("node");
+            NodeList eList = doc.getElementsByTagName("edge");
+            System.out.println("----------------------------");
+            System.out.println("There are " + nList.getLength() + " of vertex.");
+            System.out.println("There are " + eList.getLength() + " of edge.");
 
+            //Parse Vertices and add them to the graph object
+            for (int i = 0; i < nList.getLength(); i++) {
+                Node nNode = nList.item(i);
+                if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+                    Element eElement = (Element) nNode;
+                    Integer id = Integer.valueOf( eElement.getAttribute("id"));
+                    String label = eElement.getAttribute("label");
+                    String name = eElement.getElementsByTagName("attvalue").item(0).getAttributes().item(1).getTextContent();
+                    System.out.println("Vertex: " + id + " " + label + " " + name);
+                    dg.addVertexToMap(new Vertex(id, label, name));
+                }
+            }
 
+            System.out.println();
+
+            //Parse Edges and add them to the graph object
+            for (int i = 0; i < eList.getLength(); i++) {
+                Node eNode = eList.item(i);
+                if (eNode.getNodeType() == Node.ELEMENT_NODE) {
+                    Element eElement = (Element) eNode;
+                    Integer id = Integer.valueOf(eElement.getAttribute("id"));
+                    Integer from = Integer.valueOf(eElement.getAttribute("source"));
+                    Integer to = Integer.valueOf(eElement.getAttribute("target"));
+                    String label = eElement.getElementsByTagName("attvalue").item(0).getAttributes().item(1).getTextContent();
+                    System.out.println("Edge: " + id + " " + from + " " + to + " " + label);
+                    dg.addEdge(new Edge(id, from, to, label));
+                }
+            }
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
         return dg;
     }
 }

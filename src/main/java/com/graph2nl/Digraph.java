@@ -90,7 +90,7 @@ public class Digraph {
     public void toEnglish(){
         updateOut();
         Integer numOut = outVertices.size();
-        System.out.print("We are going to describe " + numOut);
+        System.out.print("\nWe are going to describe " + numOut);
         if (numOut <= 1){
             System.out.println(" vertex:");
         }
@@ -128,7 +128,7 @@ public class Digraph {
     public void toChinese(){
         updateOut();
         Integer numOut = outVertices.size();
-        System.out.println("我们要描述以下" + numOut + "个节点：");
+        System.out.println("\n我们要描述以下" + numOut + "个节点：");
 
         for (int i = 0; i < numOut; i++){
             System.out.println("-----------------------------------");
