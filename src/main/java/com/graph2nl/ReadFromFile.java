@@ -50,4 +50,12 @@ public class ReadFromFile {
         }
         return dg;
     }
+
+    public static Digraph parseGEXF(){
+        Digraph dg = new Digraph();
+
+
+
+        return dg;
+    }
 }
