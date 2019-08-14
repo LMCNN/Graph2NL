@@ -62,15 +62,8 @@ public class ProjectRunner {
                 default:
                     System.out.print("getopt() returned " + c + "\n");
             }
-
-            switch (language){
-                case 0:
-                    dg.toEnglish();
-                    break;
-                case 1:
-                    dg.toChinese();
-                    break;
-            }
         }
+        if (language == 0) dg.toEnglish();
+        if (language == 1) dg.toChinese();
     }
 }

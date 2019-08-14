@@ -2,10 +2,8 @@
   <artifact type="jar" name="Graph2NL:jar">
     <output-path>$PROJECT_DIR$/classes/artifacts/Graph2NL_jar</output-path>
     <root id="archive" name="Graph2NL.jar">
-      <element id="directory" name="META-INF">
-        <element id="file-copy" path="$PROJECT_DIR$/src/main/resources/META-INF/MANIFEST.MF" />
-      </element>
       <element id="module-output" name="Graph2NL" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/gnu/getopt/java-getopt/1.0.13/java-getopt-1.0.13.jar" path-in-jar="/" />
     </root>
   </artifact>
 </component>

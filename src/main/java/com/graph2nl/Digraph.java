@@ -128,6 +128,7 @@ public class Digraph {
     public void toChinese(){
         updateOut();
         Integer numOut = outVertices.size();
+
         System.out.println("\n我们要描述以下" + numOut + "个节点：");
 
         for (int i = 0; i < numOut; i++){
