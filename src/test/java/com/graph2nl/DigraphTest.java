@@ -1,11 +1,7 @@
 package com.graph2nl;
 
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-
-import java.util.HashMap;
-import java.util.Map;
+import org.junit.*;
+import java.util.*;
 
 public class DigraphTest {
     private Digraph dg;
@@ -55,7 +51,7 @@ public class DigraphTest {
         dg.addEdge(new Edge(10L, dg.getVertexById(3L), dg.getVertexById(7L), dg.getEdgeLabelByName("visit")));
         Assert.assertTrue(dg.getOutVertices().size() == 4);
 
-        System.out.println(dg.toString());
+//        System.out.println(dg.toString());
+        dg.describe('e');
     }
-
 }

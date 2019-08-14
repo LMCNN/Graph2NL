@@ -7,10 +7,12 @@ import java.io.IOException;
 
 public class ReadFromFileTest {
 //    @Test
-//    public void readFromCSV1() {
+//    public void readFromCSV1() throws IOException, ParseException {
 //        Digraph dg = new Digraph();
-//        ReadFromFile.ReadFromCSV("src/data.v", "src/data.e", dg);
-//        dg.toEnglish();
+////        ReadFromFile.loadConfig("src/config.json", dg);
+//        ReadFromFile.ReadFromCSV("src/data1/test.v", "src/data1/test.e", dg);
+//        System.out.println(dg.toString());
+//        dg.describe('e');
 //    }
 //
 //    @Test
@@ -20,17 +22,18 @@ public class ReadFromFileTest {
 //        dg.toChinese();
 //    }
 //
-//    @Test
-//    public void testParseGEXF(){
-//        Digraph dg = new Digraph();
-//        ReadFromFile.parseGEXF("src/data.gexf", dg);
-//        dg.toEnglish();
-//    }
-
     @Test
-    public void testLoadConfig() throws IOException, ParseException {
+    public void testParseGEXF() throws IOException, ParseException {
         Digraph dg = new Digraph();
         ReadFromFile.loadConfig("src/config.json", dg);
-        System.out.println(dg.toString());
+        ReadFromFile.parseGEXF("src/data.gexf", dg);
+        dg.describe('e');
     }
+
+//    @Test
+//    public void testLoadConfig() throws IOException, ParseException {
+//        Digraph dg = new Digraph();
+//        ReadFromFile.loadConfig("src/config.json", dg);
+//        System.out.println(dg.toString());
+//    }
 }

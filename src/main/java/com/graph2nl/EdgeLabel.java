@@ -114,7 +114,7 @@ public class EdgeLabel implements Comparable<EdgeLabel>{
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         EdgeLabel edgeLabel = (EdgeLabel) o;
-        return name.equals(edgeLabel.name);
+        return name.equals(edgeLabel.getName());
     }
 
     /**
@@ -142,6 +142,10 @@ public class EdgeLabel implements Comparable<EdgeLabel>{
      */
     @Override
     public String toString() {
-        return prefix + ' ' + name + ' ' + postfix;
+        return "{name:" + name + ", priority:" + priority + "}";
+    }
+
+    public String print(){
+        return " " + prefix + " " + name + " " + postfix+ " ";
     }
 }

@@ -8,6 +8,14 @@ import java.util.Map;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.*;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+
 /**
  * Read Graph data from file
  *
@@ -33,8 +41,7 @@ public class ReadFromFile {
             JSONObject tempV = (JSONObject) itr.next();
             String name = (String) tempV.get("name");
             Long priority = (Long) tempV.get("priority");
-            VertexLabel tempLabel = new VertexLabel(name);
-            tempLabel.setPriority(priority);
+            VertexLabel tempLabel = new VertexLabel(name, priority);
             tempMapV.put(name, tempLabel);
 //            System.out.println("{name: " + name +  ", \npriority: " + priority +"}");
         }
@@ -51,10 +58,7 @@ public class ReadFromFile {
             Long priority = (Long) tempE.get("priority");
             String prefix = (String) tempE.get("prefix");
             String postfix = (String) tempE.get("postfix");
-            EdgeLabel tempLabel = new EdgeLabel(name);
-            tempLabel.setPriority(priority);
-            tempLabel.setPrefix(prefix);
-            tempLabel.setPostfix(postfix);
+            EdgeLabel tempLabel = new EdgeLabel(name, priority, prefix, postfix);
             tempMapE.put(name, tempLabel);
 //            System.out.println("{name: " + name +  ",\n" +
 //                    " priority: " + priority +",\n" +
@@ -65,95 +69,132 @@ public class ReadFromFile {
     }
 
     //This function can parse .e .v file and convert them into a Digraph object
-//    public static Digraph ReadFromCSV(String vFileName, String eFileName, Digraph dg){
-//        File vFile = new File(vFileName);
-//        BufferedReader reader = null;
-//        try {
-//            reader = new BufferedReader(new FileReader(vFile));
-//            String temp = null;
-//            while ((temp = reader.readLine()) != null) {
-//                VertexLabel[] line[] = temp.split(",");
-//                for (int i = 0; i < line.length; i++){
-//                    System.out.print(line[i] + " ");
-//                }
-//                dg.addVertexToMap(new Vertex(Long.valueOf(line[0]), line[1], line[2]));
-//                System.out.println();
-//            }
-//            reader.close();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//
-//        System.out.println("\n-------------------------------------------\n");
-//
-//        File eFile = new File(eFileName);
-//        reader = null;
-//        try {
-//            reader = new BufferedReader(new FileReader(eFile));
-//            String temp = null;
-//            while ((temp = reader.readLine()) != null) {
-//                EdgeLabel[] line[] = temp.split(",");
-//                for (int i = 0; i < line.length; i++){
-//                    System.out.print(line[i] + " ");
-//                }
-//                dg.addEdge(new Edge(Long.valueOf(line[0]),
-//                        dg.getVertexById(Long.valueOf(line[1])),
-//                        dg.getVertexById(Long.valueOf(line[2])), line[3]));
-//                System.out.println();
-//            }
-//            reader.close();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        return dg;
-//    }
+    public static Digraph ReadFromCSV(String vFileName, String eFileName, Digraph dg){
+        File vFile = new File(vFileName);
+        BufferedReader reader = null;
+        try {
+            Map<String, VertexLabel> vLabelMap;
+            if (dg.getVertexLabelMap() == null){
+                vLabelMap = new HashMap<>();
+                dg.setVertexLabelMap(vLabelMap);
+            }
+            else {
+                vLabelMap = dg.getVertexLabelMap();
+            }
+            reader = new BufferedReader(new FileReader(vFile));
+            String temp = null;
+            while ((temp = reader.readLine()) != null) {
+                String[] line = temp.split(",");
+                for (int i = 0; i < line.length; i++){
+                    System.out.print(line[i] + " ");
+                }
+                if (!vLabelMap.containsKey(line[1])) vLabelMap.put(line[1], new VertexLabel(line[1]));
+                dg.addVertexToMap(new Vertex(Long.valueOf(line[0]), dg.getVertexLabelByName(line[1]), line[2]));
+                System.out.println();
+            }
+            reader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("\n-------------------------------------------\n");
+
+        File eFile = new File(eFileName);
+        reader = null;
+        try {
+            Map<String, EdgeLabel> eLabelMap;
+            if (dg.getEdgeLabelMap() == null){
+                eLabelMap = new HashMap<>();
+                dg.setEdgeLabelMap(eLabelMap);
+            }
+            else {
+                eLabelMap = dg.getEdgeLabelMap();
+            }
+            reader = new BufferedReader(new FileReader(eFile));
+            String temp = null;
+            while ((temp = reader.readLine()) != null) {
+                String[] line = temp.split(",");
+                for (int i = 0; i < line.length; i++){
+                    System.out.print(line[i] + " ");
+                }
+                if (!eLabelMap.containsKey(line[3])) eLabelMap.put(line[3], new EdgeLabel(line[3]));
+                dg.addEdge(new Edge(Long.valueOf(line[0]),
+                        dg.getVertexById(Long.valueOf(line[1])),
+                        dg.getVertexById(Long.valueOf(line[2])),
+                        dg.getEdgeLabelByName(line[3])));
+                System.out.println();
+            }
+            reader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return dg;
+    }
 //
 //    //Load from .gexf file
-//    public static Digraph parseGEXF(String fileName, Digraph dg){
-//        File inputFile = new File(fileName);
-//        DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-//
-//        try {
-//            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-//            Document doc = dBuilder.parse(inputFile);
-//            doc.getDocumentElement().normalize();
-//            NodeList nList = doc.getElementsByTagName("node");
-//            NodeList eList = doc.getElementsByTagName("edge");
-//            System.out.println("There are " + nList.getLength() + " of vertex.");
-//            System.out.println("There are " + eList.getLength() + " of edge.\n");
-//
-//            //Parse Vertices and add them to the graph object
-//            for (int i = 0; i < nList.getLength(); i++) {
-//                Node nNode = nList.item(i);
-//                if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-//                    Element eElement = (Element) nNode;
-//                    Long id = Long.valueOf( eElement.getAttribute("id"));
-//                    VertexLabel label = eElement.getAttribute("label");
-//                    String name = eElement.getElementsByTagName("attvalue").item(0).getAttributes().item(1).getTextContent();
+    public static Digraph parseGEXF(String fileName, Digraph dg){
+        File inputFile = new File(fileName);
+        DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+
+        try {
+            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+            Document doc = dBuilder.parse(inputFile);
+            doc.getDocumentElement().normalize();
+            NodeList nList = doc.getElementsByTagName("node");
+            NodeList eList = doc.getElementsByTagName("edge");
+            System.out.println("There are " + nList.getLength() + " of vertex.");
+            System.out.println("There are " + eList.getLength() + " of edge.\n");
+
+            //Parse Vertices and add them to the graph object
+            Map<String, VertexLabel> vLabelMap;
+            if (dg.getVertexLabelMap() == null){
+                vLabelMap = new HashMap<>();
+                dg.setVertexLabelMap(vLabelMap);
+            }
+            else {
+                vLabelMap = dg.getVertexLabelMap();
+            }
+            for (int i = 0; i < nList.getLength(); i++) {
+                Node nNode = nList.item(i);
+                if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+                    Element eElement = (Element) nNode;
+                    Long id = Long.valueOf( eElement.getAttribute("id"));
+                    String label = eElement.getAttribute("label");
+                    if (!vLabelMap.containsKey(label)) vLabelMap.put(label, new VertexLabel(label));
+                    String name = eElement.getElementsByTagName("attvalue").item(0).getAttributes().item(1).getTextContent();
 //                    System.out.println("Vertex: " + id + " " + label + " " + name);
-//                    dg.addVertexToMap(new Vertex(id, label, name));
-//                }
-//            }
-//
-//            System.out.println();
-//
-//            //Parse Edges and add them to the graph object
-//            for (int i = 0; i < eList.getLength(); i++) {
-//                Node eNode = eList.item(i);
-//                if (eNode.getNodeType() == Node.ELEMENT_NODE) {
-//                    Element eElement = (Element) eNode;
-//                    Long id = Long.valueOf(eElement.getAttribute("id"));
-//                    Vertex from = dg.getVertexById(Long.valueOf(eElement.getAttribute("source")));
-//                    Vertex to = dg.getVertexById(Long.valueOf(eElement.getAttribute("target")));
-//                    EdgeLabel label = eElement.getElementsByTagName("attvalue").item(0).getAttributes().item(1).getTextContent();
+                    dg.addVertexToMap(new Vertex(id, dg.getVertexLabelByName(label), name));
+                }
+            }
+
+            System.out.println();
+
+            //Parse Edges and add them to the graph object
+            Map<String, EdgeLabel> eLabelMap;
+            if (dg.getEdgeLabelMap() == null){
+                eLabelMap = new HashMap<>();
+                dg.setEdgeLabelMap(eLabelMap);
+            }
+            else {
+                eLabelMap = dg.getEdgeLabelMap();
+            }
+            for (int i = 0; i < eList.getLength(); i++) {
+                Node eNode = eList.item(i);
+                if (eNode.getNodeType() == Node.ELEMENT_NODE) {
+                    Element eElement = (Element) eNode;
+                    Long id = Long.valueOf(eElement.getAttribute("id"));
+                    Vertex from = dg.getVertexById(Long.valueOf(eElement.getAttribute("source")));
+                    Vertex to = dg.getVertexById(Long.valueOf(eElement.getAttribute("target")));
+                    String label = eElement.getElementsByTagName("attvalue").item(0).getAttributes().item(1).getTextContent();
+                    if (!eLabelMap.containsKey(label)) eLabelMap.put(label, new EdgeLabel(label));
 //                    System.out.println("Edge: " + id + " " + from + " " + to + " " + label);
-//                    dg.addEdge(new Edge(id, from, to, label));
-//                }
-//            }
-//        }
-//        catch (Exception e){
-//            e.printStackTrace();
-//        }
-//        return dg;
-//    }
+                    dg.addEdge(new Edge(id, from, to, dg.getEdgeLabelByName(label)));
+                }
+            }
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        return dg;
+    }
 }

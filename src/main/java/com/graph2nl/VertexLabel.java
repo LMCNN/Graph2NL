@@ -67,7 +67,11 @@ public class VertexLabel implements Comparable<VertexLabel>{
 
     @Override
     public String toString() {
-        return " " + name + " ";
+        return "{name:" + name + ", priority:" + priority + "}";
+    }
+
+    public String print(){
+        return name;
     }
 
     @Override

@@ -63,7 +63,7 @@ public class ProjectRunner {
                     System.out.print("getopt() returned " + c + "\n");
             }
         }
-        if (language == 0) dg.toEnglish();
-        if (language == 1) dg.toChinese();
+//        if (language == 0) dg.toEnglish();
+//        if (language == 1) dg.toChinese();
     }
 }
