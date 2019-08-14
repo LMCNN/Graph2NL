@@ -1,5 +1,7 @@
 package com.graph2nl;
 
+import java.util.Objects;
+
 /**
  * This this the VertexLabel class
  *
@@ -17,6 +19,16 @@ public class VertexLabel implements Comparable<VertexLabel>{
     public VertexLabel(String name) {
         this.name = name;
         this.priority = Long.MAX_VALUE;
+    }
+
+    /**
+     * The constructor of this class with two parameters
+     * @param name the name of this vertex label
+     * @param priority the priority of this vertex label
+     */
+    public VertexLabel(String name, Long priority) {
+        this.name = name;
+        this.priority = priority;
     }
 
     /**
@@ -56,5 +68,18 @@ public class VertexLabel implements Comparable<VertexLabel>{
     @Override
     public String toString() {
         return " " + name + " ";
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        VertexLabel that = (VertexLabel) o;
+        return Objects.equals(name, that.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name);
     }
 }

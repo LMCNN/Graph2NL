@@ -9,20 +9,59 @@ import java.util.Objects;
  * date: 2019.8.14
  */
 public class EdgeLabel implements Comparable<EdgeLabel>{
-    private Long priority;
     private String name;
+    private Long priority;
     private String prefix;
     private String postfix;
 
     /**
      * The constructor of this class
-     * @param name the label name of this label
+     * @param name the label name of this edge label
      */
     public EdgeLabel(String name) {
         this.name = name;
         this.priority = Long.MAX_VALUE;
         this.prefix = "";
         this.postfix = "";
+    }
+
+    /**
+     * The constructor of this class with two parameters
+     * @param name the label name of this edge label
+     * @param priority the label priority of this edge label
+     */
+    public EdgeLabel(String name, Long priority) {
+        this.name = name;
+        this.priority = priority;
+        this.prefix = "";
+        this.postfix = "";
+    }
+
+    /**
+     * The constructor of this class with three parameters
+     * @param name the label name of this edge label
+     * @param priority the label priority of this edge label
+     * @param prefix the label prefix of this edge label
+     */
+    public EdgeLabel(String name, Long priority, String prefix) {
+        this.name = name;
+        this.priority = priority;
+        this.prefix = prefix;
+        this.postfix = "";
+    }
+
+    /**
+     * The constructor of this class with four parameters
+     * @param name the label name of this edge label
+     * @param priority the label priority of this edge label
+     * @param prefix the label prefix of this edge label
+     * @param postfix the label postfix of this edge label
+     */
+    public EdgeLabel(String name, Long priority, String prefix, String postfix) {
+        this.name = name;
+        this.priority = priority;
+        this.prefix = prefix;
+        this.postfix = postfix;
     }
 
     /**
@@ -47,6 +86,14 @@ public class EdgeLabel implements Comparable<EdgeLabel>{
      */
     public void setPostfix(String postfix) {
         this.postfix = postfix;
+    }
+
+    /**
+     * Get the label name
+     * @return the name of this label
+     */
+    public String getName() {
+        return name;
     }
 
     /**

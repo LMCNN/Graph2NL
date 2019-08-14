@@ -10,7 +10,7 @@ import java.util.*;
  */
 public class Digraph {
     private Map<Long, Vertex> vertexMap;
-    private List<Long> outVertices;
+    private List<Vertex> outVertices;
     private Map<String, EdgeLabel> edgeLabelMap;
     private Map<String, VertexLabel> vertexLabelMap;
 
@@ -19,7 +19,7 @@ public class Digraph {
      */
     public Digraph() {
         this.vertexMap = new HashMap<Long, Vertex>();
-        this.outVertices = new ArrayList<Long>();
+        this.outVertices = new ArrayList<Vertex>();
     }
 
     /**
@@ -52,7 +52,7 @@ public class Digraph {
      * Get all vertices with our degree greater than 0
      * @return a list of vertex
      */
-    public List<Long> getOutVertices() {
+    public List<Vertex> getOutVertices() {
         updateOut();
         return outVertices;
     }
@@ -67,14 +67,33 @@ public class Digraph {
     }
 
     /**
+     * Get the vertex label object by its name
+     * @param name the name of vertex label
+     * @return the vertex label
+     */
+    public VertexLabel getVertexLabelByName(String name){
+        return vertexLabelMap.get(name);
+    }
+
+    /**
+     * Get the edge label object by it name
+     * @param name the name of edge label
+     * @return the edge label
+     */
+    public EdgeLabel getEdgeLabelByName(String name){
+        return edgeLabelMap.get(name);
+    }
+
+    /**
      * Update the out vertex list
      */
     private void updateOut(){
-        for (Long key : vertexMap.keySet()) {
-            Vertex tmp = vertexMap.get(key);
-            if (tmp.getOutDegree() > 0 && !outVertices.contains(key))
-                outVertices.add(key);
+        Collection<Vertex> vertices = vertexMap.values();
+        for (Vertex curr : vertices) {
+            if (curr.getOutDegree() > 0 && !outVertices.contains(curr))
+                outVertices.add(curr);
         }
+        Collections.sort(outVertices);
     }
 
     /**
@@ -83,8 +102,8 @@ public class Digraph {
      * @return this edge
      */
     public Edge addEdge(Edge e){
-        Long fromId = e.getFrom();
-        Vertex currV = getVertexById(fromId);
+        Vertex fromId = e.getFrom();
+        Vertex currV = getVertexById(fromId.getId());
         currV.addEdge(e);
         return e;
     }
@@ -96,11 +115,25 @@ public class Digraph {
     @Override
     public String toString() {
         return "Digraph{" +
-                "\nvertexMap=" + vertexMap +
-                ",\n outVertices=" + outVertices +
+                "\nvertexMap=" + vertexMap + ",\n " +
+                printOutVertices() +
                 ",\n edgeLabelMap=" + edgeLabelMap +
                 ",\n vertexLabelMap=" + vertexLabelMap +
                 "\n}";
+    }
+
+    /**
+     * helper method for print the out vertices
+     * @return A out vertices string
+     */
+    private String printOutVertices(){
+        StringBuilder builder = new StringBuilder("outVertices = {");
+        for (Vertex curr : outVertices){
+            builder.append(curr.getId());
+            builder.append(", ");
+        }
+        builder.append("}");
+        return builder.toString();
     }
 
     /**
@@ -116,16 +149,15 @@ public class Digraph {
         else {
             System.out.println(" vertices:");
         }
-        for (int i = 0; i < numOut; i++){
+        for (Vertex currV : outVertices){
             System.out.println("-----------------------------------");
-            Vertex currV = getVertexById(outVertices.get(i));
              if (currV.getEdgeMap().containsKey("is")){
                  List<Edge> listV = currV.getEdgeMap().get("is");
                  for (Edge e : listV) {
                      System.out.println(currV.getLabel() + ": " + currV.getName() + " is " + vertexMap.get(e.getTo()).getName() + ".");
                  }
              }
-             for (String label : currV.getEdgeMap().keySet()){
+             for (EdgeLabel label : currV.getEdgeMap().keySet()){
                  if (!label.equals("is")){
                      List<Edge> edgeList = currV.getEdgeMap().get(label);
                      int size = edgeList.size();
@@ -150,9 +182,8 @@ public class Digraph {
 
         System.out.println("\n我们要描述以下" + numOut + "个节点：");
 
-        for (int i = 0; i < numOut; i++){
+        for (Vertex currV : outVertices){
             System.out.println("-----------------------------------");
-            Vertex currV = getVertexById(outVertices.get(i));
             if (currV.getEdgeMap().containsKey("是")){
                 List<Edge> listV = currV.getEdgeMap().get("是");
                 for (Edge e : listV) {
@@ -160,7 +191,7 @@ public class Digraph {
                             + vertexMap.get(e.getTo()).getName() + ".");
                 }
             }
-            for (String label : currV.getEdgeMap().keySet()){
+            for (EdgeLabel label : currV.getEdgeMap().keySet()){
                 if (!label.equals("是")){
                     List<Edge> edgeList = currV.getEdgeMap().get(label);
                     int size = edgeList.size();

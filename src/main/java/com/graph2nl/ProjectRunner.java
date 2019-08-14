@@ -41,7 +41,7 @@ public class ProjectRunner {
                     language = 1;
                     break;
                 case 'g':
-                    ReadFromFile.parseGEXF(g.getOptarg(), dg);
+                    //ReadFromFile.parseGEXF(g.getOptarg(), dg);
                     break;
                 case 'v':
                     File folder = new File(g.getOptarg());
@@ -55,7 +55,7 @@ public class ProjectRunner {
                             if (temp.equals(".e")) fileName[1] = g.getOptarg() + "/" + listOfFiles[i].getName();
                         }
                     }
-                    ReadFromFile.ReadFromCSV(fileName[0], fileName[1], dg);
+                    //ReadFromFile.ReadFromCSV(fileName[0], fileName[1], dg);
                     break;
                 case '?':
                     break; // getopt() already printed an error

@@ -7,24 +7,35 @@ public class VertexTest {
 
     @Before
     public void setUp(){
-        v1 = new Vertex(new Long(1), "Number", "110");
+        v1 = new Vertex(1L, new VertexLabel("Number"), "110");
     }
 
     @Test
     public void testGetters() {
         Assert.assertTrue(v1.getId() == 1);
-        Assert.assertEquals(v1.getLabel(), "Number");
+        Assert.assertEquals(v1.getLabel().getName(), "Number");
         Assert.assertEquals(v1.getName(), "110");
         Assert.assertTrue(v1.getOutDegree() == 0);
     }
 
     @Test
     public void testEdgeMethods(){
-        Vertex testV = new Vertex(new Long(2), "User", "Mingchi");
-        Edge e1 = new Edge(new Long(1), new Long(2), new Long(3), "called");
-        Edge e2 = new Edge(new Long(2), new Long(2), new Long(3), "message");
-        Edge e3 = new Edge(new Long(3), new Long(2), new Long(4), "visit");
-        Edge e4 = new Edge(new Long(4), new Long(2), new Long(5), "visit");
+        VertexLabel vertexLabel1 = new VertexLabel("User");
+        VertexLabel vertexLabel2 = new VertexLabel("Number");
+        VertexLabel vertexLabel3 = new VertexLabel("Website");
+        VertexLabel vertexLabel4 = new VertexLabel("APP");
+        EdgeLabel edgeLabel1 = new EdgeLabel("called");
+        EdgeLabel edgeLabel2 = new EdgeLabel("message");
+        EdgeLabel edgeLabel3 = new EdgeLabel("visit");
+        Vertex testV = new Vertex(1L, vertexLabel1, "Mingchi");
+        Vertex v1 = new Vertex(2L, vertexLabel2, "110");
+        Vertex v2 = new Vertex(3L, vertexLabel2, "120");
+        Vertex v3 = new Vertex(4L, vertexLabel3, "baidu.com");
+        Vertex v4 = new Vertex(5L, vertexLabel4, "WeChat");
+        Edge e1 = new Edge(1L, testV, v1, edgeLabel1);
+        Edge e2 = new Edge(2L, testV, v2, edgeLabel2);
+        Edge e3 = new Edge(3L, testV, v3, edgeLabel3);
+        Edge e4 = new Edge(4L, testV, v4, edgeLabel3);
         testV.addEdge(e1);
         testV.addEdge(e2);
         testV.addEdge(e3);
@@ -32,9 +43,9 @@ public class VertexTest {
         Assert.assertTrue(testV.getOutDegree() == 4);
         String result = "Vertex\n" +
                 "{\n" +
-                "\tid=2, \n" +
+                "\tid=1, \n" +
                 "\toutDegree=4, \n" +
-                "\tedgeMap={called=[2-called->3], visit=[2-visit->4, 2-visit->5], message=[2-message->3]}, \n" +
+                "\tedgeMap={ called =[1-called->2],  visit =[1-visit->4, 1-visit->5],  message =[1-message->3]}, \n" +
                 "\tlabel='User', \n" +
                 "\tname='Mingchi'\n" +
                 "}";
