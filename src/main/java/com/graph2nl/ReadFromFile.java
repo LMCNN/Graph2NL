@@ -12,6 +12,10 @@ import java.io.*;
  * date: 2019.8.8
  */
 public class ReadFromFile {
+    //Load json configuration file
+    public static void loadConfig(Digraph dg){
+
+    }
 
     //This function can parse .e .v file and convert them into a Digraph object
     public static Digraph ReadFromCSV(String vFileName, String eFileName){
@@ -34,7 +38,7 @@ public class ReadFromFile {
             e.printStackTrace();
         }
 
-        System.out.println("-------------------------------------------");
+        System.out.println("\n-------------------------------------------\n");
 
         File eFile = new File(eFileName);
         reader = null;
