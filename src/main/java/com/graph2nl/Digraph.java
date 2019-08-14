@@ -11,6 +11,8 @@ import java.util.*;
 public class Digraph {
     private Map<Integer, Vertex> vertexMap;
     private List<Integer> outVertices;
+    private Map<String, EdgeLabel> edgeLabelMap;
+    private Map<String, VertexLabel> vertexLabelMap;
 
     /**
      * The constructor of this class
@@ -18,6 +20,22 @@ public class Digraph {
     public Digraph() {
         this.vertexMap = new HashMap<>();
         this.outVertices = new ArrayList<>();
+    }
+
+    /**
+     * Load edgeLabelMap from configuration file
+     * @param edgeLabelMap map create by config file
+     */
+    public void setEdgeLabelMap(Map<String, EdgeLabel> edgeLabelMap) {
+        this.edgeLabelMap = edgeLabelMap;
+    }
+
+    /**
+     * Load vertexLabelMap from configuration file
+     * @param vertexLabelMap map create by config file
+     */
+    public void setVertexLabelMap(Map<String, VertexLabel> vertexLabelMap) {
+        this.vertexLabelMap = vertexLabelMap;
     }
 
     /**
@@ -77,11 +95,12 @@ public class Digraph {
      */
     @Override
     public String toString() {
-        updateOut();
-        return "Digraph\n{\n" +
-                "\t\nvertexMap=" + vertexMap.toString() +
-                ", \noutVertices=" + outVertices +
-                "\n}";
+        return "Digraph{" +
+                "vertexMap=" + vertexMap +
+                ", outVertices=" + outVertices +
+                ", edgeLabelMap=" + edgeLabelMap +
+                ", vertexLabelMap=" + vertexLabelMap +
+                '}';
     }
 
     /**
