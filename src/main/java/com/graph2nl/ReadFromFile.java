@@ -13,13 +13,12 @@ import java.io.*;
  */
 public class ReadFromFile {
     //Load json configuration file
-    public static void loadConfig(Digraph dg){
+    public static void loadConfig(String config, Digraph dg){
 
     }
 
     //This function can parse .e .v file and convert them into a Digraph object
-    public static Digraph ReadFromCSV(String vFileName, String eFileName){
-        Digraph dg = new Digraph();
+    public static Digraph ReadFromCSV(String vFileName, String eFileName, Digraph dg){
         File vFile = new File(vFileName);
         BufferedReader reader = null;
         try {
@@ -60,8 +59,8 @@ public class ReadFromFile {
         return dg;
     }
 
-    public static Digraph parseGEXF(String fileName){
-        Digraph dg = new Digraph();
+    //Load from .gexf file
+    public static Digraph parseGEXF(String fileName, Digraph dg){
         File inputFile = new File(fileName);
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 

@@ -5,8 +5,9 @@ import org.junit.Test;
 public class ReadFromFileTest {
     @Test
     public void readFromCSV1() {
-        Digraph dg;
-        dg = ReadFromFile.ReadFromCSV("src/data.v", "src/data.e");
+        Digraph dg = new Digraph();
+//        dg = ReadFromFile.ReadFromCSV("src/data.v", "src/data.e");
+        ReadFromFile.ReadFromCSV("src/data.v", "src/data.e", dg);
         //System.out.println(dg.toString());
         dg.toEnglish();
     }
