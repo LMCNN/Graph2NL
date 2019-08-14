@@ -8,7 +8,7 @@ package com.graph2nl;
  */
 public class VertexLabel implements Comparable<VertexLabel>{
     private String name;
-    private Integer priority;
+    private Long priority;
 
     /**
      * The constructor of this class
@@ -16,14 +16,14 @@ public class VertexLabel implements Comparable<VertexLabel>{
      */
     public VertexLabel(String name) {
         this.name = name;
-        this.priority = Integer.MAX_VALUE;
+        this.priority = Long.MAX_VALUE;
     }
 
     /**
      * Set the priority of this label type of vertex
      * @param priority the priority
      */
-    public void setPriority(Integer priority) {
+    public void setPriority(Long priority) {
         this.priority = priority;
     }
 
@@ -39,7 +39,7 @@ public class VertexLabel implements Comparable<VertexLabel>{
      * Get the priority of this vertex
      * @return
      */
-    public Integer getPriority() {
+    public Long getPriority() {
         return priority;
     }
 

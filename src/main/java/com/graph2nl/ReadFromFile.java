@@ -4,7 +4,12 @@ import org.w3c.dom.*;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.*;
+import java.util.Iterator;
+import java.util.Map;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.*;
 /**
  * Read Graph data from file
  *
@@ -13,8 +18,40 @@ import java.io.*;
  */
 public class ReadFromFile {
     //Load json configuration file
-    public static void loadConfig(String config, Digraph dg){
+    public static void loadConfig(String config, Digraph dg) throws IOException, ParseException {
+        // parsing file "config.json"
+        Object obj = new JSONParser().parse(new FileReader(config));
 
+        // typecasting obj to JSONObject
+        JSONObject jo = (JSONObject) obj;
+
+        // getting VertexLabel
+        JSONArray jv = (JSONArray) jo.get("VertexLabel");
+        // iterating vertex label
+        Iterator itr = jv.iterator();
+        while (itr.hasNext())
+        {
+            JSONObject tempV = (JSONObject) itr.next();
+            String name = (String) tempV.get("name");
+            Long priority = (Long) tempV.get("priority");
+            System.out.println("{name: " + name +  ", \npriority: " + priority +"}");
+        }
+
+        // getting EdgeLabel
+        JSONArray je = (JSONArray) jo.get("EdgeLabel");
+        itr = je.iterator();
+        while (itr.hasNext())
+        {
+            JSONObject tempE = (JSONObject) itr.next();
+            String name = (String) tempE.get("name");
+            Long priority = (Long) tempE.get("priority");
+            String prefix = (String) tempE.get("prefix");
+            String postfix = (String) tempE.get("postfix");
+            System.out.println("{name: " + name +  ",\n" +
+                    " priority: " + priority +",\n" +
+                    " prefix: " + prefix + ",\n" +
+                    " postfix: " + postfix + "}");
+        }
     }
 
     //This function can parse .e .v file and convert them into a Digraph object

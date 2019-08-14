@@ -9,7 +9,7 @@ import java.util.Objects;
  * date: 2019.8.14
  */
 public class EdgeLabel implements Comparable<EdgeLabel>{
-    private Integer priority;
+    private Long priority;
     private String name;
     private String prefix;
     private String postfix;
@@ -20,7 +20,7 @@ public class EdgeLabel implements Comparable<EdgeLabel>{
      */
     public EdgeLabel(String name) {
         this.name = name;
-        this.priority = Integer.MAX_VALUE;
+        this.priority = Long.MAX_VALUE;
         this.prefix = "";
         this.postfix = "";
     }
@@ -29,7 +29,7 @@ public class EdgeLabel implements Comparable<EdgeLabel>{
      * Get the print priority of this label
      * @param priority
      */
-    public void setPriority(Integer priority) {
+    public void setPriority(Long priority) {
         this.priority = priority;
     }
 
@@ -53,7 +53,7 @@ public class EdgeLabel implements Comparable<EdgeLabel>{
      * get the priority of this edge label
      * @return the priority value of this label
      */
-    public Integer getPriority() {
+    public Long getPriority() {
         return priority;
     }
 
