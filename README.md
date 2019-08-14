@@ -1,6 +1,13 @@
 # Graph2NL
 A simple program covert graph to English or Chinese
 
+# How to Run
+First download Graph2NL.jar file
+
+Windows:  `java -Dfile.encoding=utf-8 -jar Graph2NL.jar`
+
+Mac:      `java -jar Graph2NL.jar`
+
 ![](diagrams/G2NL.png)
 
 
