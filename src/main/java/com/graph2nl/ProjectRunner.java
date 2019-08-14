@@ -15,13 +15,13 @@ import java.util.*;
  */
 public class ProjectRunner {
     public static void usage(){
-        System.out.println("Usage: java -jar Graph2NL.jar [-h] [-e | -z] [-v <path> | -g <fileName>]  [-c <fileName>]\n\n" +
-                "\t-h\t\t\t\tPrint this help\n\n" +
-                "\t-c <fileName>   Use .json config file\n\n" +
-                "\t-e\t\t\t\tDescribe the graph by English\n\n" +
-                "\t-z\t\t\t\tDescribe the graph by Chinese\n\n" +
-                "\t-v <directory>  Use .e.v file as input file\n\n" +
-                "\t-g <fileName>   Use .gexf file as input file");
+        System.out.println("Usage: java -jar Graph2NL.jar [-h] [-e | -z] [-v <directory> | -g <fileName>]  [-c <fileName>]\n\n" +
+                "\t-h                  Print this help\n\n" +
+                "\t-c <fileName>       Use .json config file\n\n" +
+                "\t-e                  Describe the graph by English\n\n" +
+                "\t-z                  Describe the graph by Chinese\n\n" +
+                "\t-v <directory>      Use .e.v file as input file\n\n" +
+                "\t-g <fileName>       Use .gexf file as input file");
     }
 
     public static void main(String[] args){
