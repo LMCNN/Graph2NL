@@ -1,6 +1,5 @@
 package com.graph2nl;
 
-import com.graph2nl.Edge;
 import org.junit.*;
 
 import static org.junit.Assert.*;
