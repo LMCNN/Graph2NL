@@ -16,12 +16,12 @@ import java.util.*;
 public class ProjectRunner {
     public static void usage(){
         System.out.println("Usage: java -jar Graph2NL.jar [-h] [-e | -z] [-v <path> | -g <fileName>]  [-c <fileName>]\n\n" +
-                "\t-h\tprint this help\n\n" +
-                "\t-c <fileName>: use .json config file\n\n" +
-                "\t-e\tdescribe the graph by English\n\n" +
-                "\t-z\tdescribe the graph by Chinese\n\n" +
-                "\t-v <directory>: use .e.v file as input file\n\n" +
-                "\t-g <fileName>: use .gexf file as input file");
+                "\t-h\t\t\t\tPrint this help\n\n" +
+                "\t-c <fileName>   Use .json config file\n\n" +
+                "\t-e\t\t\t\tDescribe the graph by English\n\n" +
+                "\t-z\t\t\t\tDescribe the graph by Chinese\n\n" +
+                "\t-v <directory>  Use .e.v file as input file\n\n" +
+                "\t-g <fileName>   Use .gexf file as input file");
     }
 
     public static void main(String[] args){

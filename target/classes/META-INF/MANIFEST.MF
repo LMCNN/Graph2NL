@@ -1,0 +1,4 @@
+Manifest-Version: 1.0
+Main-Class: com.graph2nl.ProjectRunner
+Class-Path: library/json-simple-1.1.1.jar library/java-getopt-1.0.13.jar
+
