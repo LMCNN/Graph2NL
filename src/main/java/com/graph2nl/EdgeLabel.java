@@ -133,7 +133,9 @@ public class EdgeLabel implements Comparable<EdgeLabel>{
      */
     @Override
     public int compareTo(EdgeLabel o) {
-        return priority.compareTo(o.getPriority());
+        if (priority.compareTo(o.getPriority()) != 0)
+            return priority.compareTo(o.getPriority());
+        else return name.compareTo(o.getName());
     }
 
     /**
