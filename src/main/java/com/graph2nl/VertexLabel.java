@@ -65,15 +65,28 @@ public class VertexLabel implements Comparable<VertexLabel>{
         return this.priority.compareTo(o.getPriority());
     }
 
+    /**
+     * The toString method
+     * @return a String contains the label name and it's priority
+     */
     @Override
     public String toString() {
         return "{name:" + name + ", priority:" + priority + "}";
     }
 
+    /**
+     * print the label name
+     * @return a string contains the label name
+     */
     public String print(){
         return name;
     }
 
+    /**
+     * the equals method
+     * @param o the other vertex
+     * @return the result
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -82,6 +95,10 @@ public class VertexLabel implements Comparable<VertexLabel>{
         return Objects.equals(name, that.name);
     }
 
+    /**
+     * the hashCode method
+     * @return hash value of the label name
+     */
     @Override
     public int hashCode() {
         return Objects.hash(name);

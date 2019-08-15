@@ -15,16 +15,13 @@ import java.util.*;
  */
 public class ProjectRunner {
     public static void usage(){
-        System.out.println("Usage:java -jar Graph2NL.jar (-h | -(e|z) -(v|g)(argument) -c(.json config))\n" +
-                "\t\t\t\t-h\tPrint this help\n" +
-                "\t\t\t\t-c\tUse .json config file\n" +
-                "\t\t\t\t-e\tPrint out English result\n" +
-                "\t\t\t\t-z\tPrint out Chinese result\n" +
-                "\t\t\t\t-v\tUse .e.v file as argument\n" +
-                "\t\t\t\t-g\tUse .gexf file as argument\n" +
-                "\t\t\t\targument:For .e .v file is the directory path which contains those two files\n" +
-                "         \t\t\t\tFor .gexf file is the filename\n" +
-                "         \t\t\t\tFor .json file is the filename");
+        System.out.println("Usage: java -jar Graph2NL.jar [-h] [-e | -z] [-v <path> | -g <fileName>]  [-c <fileName>]\n\n" +
+                "\t-h\tprint this help\n\n" +
+                "\t-c <fileName>: use .json config file\n\n" +
+                "\t-e\tdescribe the graph by English\n\n" +
+                "\t-z\tdescribe the graph by Chinese\n\n" +
+                "\t-v <directory>: use .e.v file as input file\n\n" +
+                "\t-g <fileName>: use .gexf file as input file");
     }
 
     public static void main(String[] args){
@@ -38,6 +35,7 @@ public class ProjectRunner {
         String config = null;
         List<String> fileNames = new ArrayList<>();
 
+        //parse options and their argument
         Getopt g = new Getopt("Graph2NL", args, "c:v:g:zeh");
         int c;
         String arg;
@@ -71,7 +69,6 @@ public class ProjectRunner {
                             if (temp.equals(".e")) fileNames.set(1, g.getOptarg() + "/" + listOfFiles[i].getName());
                         }
                     }
-                    //ReadFromFile.ReadFromCSV(fileName[0], fileName[1], dg);
                     break;
                 case '?':
                     break; // getopt() already printed an error
@@ -80,6 +77,7 @@ public class ProjectRunner {
             }
         }
 
+        //load config file
         if (config != null){
             try {
                 ReadFromFile.loadConfig(config, dg);
@@ -90,6 +88,7 @@ public class ProjectRunner {
             }
         }
 
+        //load the graph
         if (fileNames.size() == 1){
             ReadFromFile.parseGEXF(fileNames.get(0), dg);
         }
@@ -97,6 +96,7 @@ public class ProjectRunner {
             ReadFromFile.ReadFromCSV(fileNames.get(0), fileNames.get(1), dg);
         }
 
+        //describe the graph
         dg.describe(language);
     }
 }

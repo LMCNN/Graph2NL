@@ -111,6 +111,10 @@ public class Vertex implements Comparable<Vertex>{
         return Objects.hash(id);
     }
 
+    /**
+     * The toString method
+     * @return A String contains all information of this vertex
+     */
     @Override
     public String toString() {
         return "Vertex\n{" +

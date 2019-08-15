@@ -43,7 +43,6 @@ public class ReadFromFile {
             Long priority = (Long) tempV.get("priority");
             VertexLabel tempLabel = new VertexLabel(name, priority);
             tempMapV.put(name, tempLabel);
-//            System.out.println("{name: " + name +  ", \npriority: " + priority +"}");
         }
         dg.setVertexLabelMap(tempMapV);
 
@@ -60,10 +59,6 @@ public class ReadFromFile {
             String postfix = (String) tempE.get("postfix");
             EdgeLabel tempLabel = new EdgeLabel(name, priority, prefix, postfix);
             tempMapE.put(name, tempLabel);
-//            System.out.println("{name: " + name +  ",\n" +
-//                    " priority: " + priority +",\n" +
-//                    " prefix: " + prefix + ",\n" +
-//                    " postfix: " + postfix + "}");
         }
         dg.setEdgeLabelMap(tempMapE);
     }
@@ -131,7 +126,7 @@ public class ReadFromFile {
         return dg;
     }
 //
-//    //Load from .gexf file
+//    //Load from .gexf file to a Digraph object
     public static Digraph parseGEXF(String fileName, Digraph dg){
         File inputFile = new File(fileName);
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
@@ -162,7 +157,6 @@ public class ReadFromFile {
                     String label = eElement.getAttribute("label");
                     if (!vLabelMap.containsKey(label)) vLabelMap.put(label, new VertexLabel(label));
                     String name = eElement.getElementsByTagName("attvalue").item(0).getAttributes().item(1).getTextContent();
-//                    System.out.println("Vertex: " + id + " " + label + " " + name);
                     dg.addVertexToMap(new Vertex(id, dg.getVertexLabelByName(label), name));
                 }
             }
@@ -187,7 +181,6 @@ public class ReadFromFile {
                     Vertex to = dg.getVertexById(Long.valueOf(eElement.getAttribute("target")));
                     String label = eElement.getElementsByTagName("attvalue").item(0).getAttributes().item(1).getTextContent();
                     if (!eLabelMap.containsKey(label)) eLabelMap.put(label, new EdgeLabel(label));
-//                    System.out.println("Edge: " + id + " " + from + " " + to + " " + label);
                     dg.addEdge(new Edge(id, from, to, dg.getEdgeLabelByName(label)));
                 }
             }

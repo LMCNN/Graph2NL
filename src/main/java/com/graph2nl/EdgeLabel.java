@@ -147,6 +147,10 @@ public class EdgeLabel implements Comparable<EdgeLabel>{
         return "{name:" + name + ", priority:" + priority + "}";
     }
 
+    /**
+     * print the label with it's prefix and postfix
+     * @return string of this label
+     */
     public String print(){
         if (postfix.equals("") && prefix.equals(""))
             return " " + name + " ";
