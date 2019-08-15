@@ -96,11 +96,11 @@ public class Digraph {
     @Override
     public String toString() {
         return "Digraph{" +
-                "vertexMap=" + vertexMap +
-                ", outVertices=" + outVertices +
-                ", edgeLabelMap=" + edgeLabelMap +
-                ", vertexLabelMap=" + vertexLabelMap +
-                '}';
+                "\nvertexMap=" + vertexMap +
+                ",\n outVertices=" + outVertices +
+                ",\n edgeLabelMap=" + edgeLabelMap +
+                ",\n vertexLabelMap=" + vertexLabelMap +
+                "\n}";
     }
 
     /**

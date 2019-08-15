@@ -4,6 +4,7 @@ import org.w3c.dom.*;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.*;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -29,16 +30,22 @@ public class ReadFromFile {
         JSONArray jv = (JSONArray) jo.get("VertexLabel");
         // iterating vertex label
         Iterator itr = jv.iterator();
+        Map<String, VertexLabel> tempMapV = new HashMap<>();
         while (itr.hasNext())
         {
             JSONObject tempV = (JSONObject) itr.next();
             String name = (String) tempV.get("name");
             Long priority = (Long) tempV.get("priority");
-            System.out.println("{name: " + name +  ", \npriority: " + priority +"}");
+            VertexLabel tempLabel = new VertexLabel(name);
+            tempLabel.setPriority(priority);
+            tempMapV.put(name, tempLabel);
+//            System.out.println("{name: " + name +  ", \npriority: " + priority +"}");
         }
+        dg.setVertexLabelMap(tempMapV);
 
         // getting EdgeLabel
         JSONArray je = (JSONArray) jo.get("EdgeLabel");
+        Map<String, EdgeLabel> tempMapE = new HashMap<>();
         itr = je.iterator();
         while (itr.hasNext())
         {
@@ -47,11 +54,17 @@ public class ReadFromFile {
             Long priority = (Long) tempE.get("priority");
             String prefix = (String) tempE.get("prefix");
             String postfix = (String) tempE.get("postfix");
-            System.out.println("{name: " + name +  ",\n" +
-                    " priority: " + priority +",\n" +
-                    " prefix: " + prefix + ",\n" +
-                    " postfix: " + postfix + "}");
+            EdgeLabel tempLabel = new EdgeLabel(name);
+            tempLabel.setPriority(priority);
+            tempLabel.setPrefix(prefix);
+            tempLabel.setPostfix(postfix);
+            tempMapE.put(name, tempLabel);
+//            System.out.println("{name: " + name +  ",\n" +
+//                    " priority: " + priority +",\n" +
+//                    " prefix: " + prefix + ",\n" +
+//                    " postfix: " + postfix + "}");
         }
+        dg.setEdgeLabelMap(tempMapE);
     }
 
     //This function can parse .e .v file and convert them into a Digraph object

@@ -31,5 +31,6 @@ public class ReadFromFileTest {
     public void testLoadConfig() throws IOException, ParseException {
         Digraph dg = new Digraph();
         ReadFromFile.loadConfig("src/config.json", dg);
+        System.out.println(dg.toString());
     }
 }
