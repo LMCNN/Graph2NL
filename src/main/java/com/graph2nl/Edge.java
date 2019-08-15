@@ -9,9 +9,9 @@ import java.util.Objects;
  * author: Mingchi Li
  */
 public class Edge {
-    private Integer id;
-    private Integer from;
-    private Integer to;
+    private Long id;
+    private Long from;
+    private Long to;
     private String label;
 
     /**
@@ -20,7 +20,7 @@ public class Edge {
      * @param to Edge termination point
      * @param label Edge label
      */
-    public Edge(Integer id, Integer from, Integer to, String label) {
+    public Edge(Long id, Long from, Long to, String label) {
         this.id = id;
         this.from = from;
         this.to = to;
@@ -31,7 +31,7 @@ public class Edge {
      * Get the vertex Id of this edge
      * @return current edge id
      */
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
@@ -39,7 +39,7 @@ public class Edge {
      * Get the vertex Id of current vertex
      * @return current vertex id
      */
-    public Integer getFrom() {
+    public Long getFrom() {
         return from;
     }
 
@@ -47,7 +47,7 @@ public class Edge {
      * Get the vertex Id of this edge points to
      * @return dist vertex id
      */
-    public Integer getTo() {
+    public Long getTo() {
         return to;
     }
 

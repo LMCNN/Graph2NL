@@ -7,7 +7,7 @@ public class VertexTest {
 
     @Before
     public void setUp(){
-        v1 = new Vertex(1, "Number", "110");
+        v1 = new Vertex(new Long(1), "Number", "110");
     }
 
     @Test
@@ -20,11 +20,11 @@ public class VertexTest {
 
     @Test
     public void testEdgeMethods(){
-        Vertex testV = new Vertex(2, "User", "Mingchi");
-        Edge e1 = new Edge(1, 2, 3, "called");
-        Edge e2 = new Edge(2, 2, 3, "message");
-        Edge e3 = new Edge(3, 2, 4, "visit");
-        Edge e4 = new Edge(4, 2, 5, "visit");
+        Vertex testV = new Vertex(new Long(2), "User", "Mingchi");
+        Edge e1 = new Edge(new Long(1), new Long(2), new Long(3), "called");
+        Edge e2 = new Edge(new Long(2), new Long(2), new Long(3), "message");
+        Edge e3 = new Edge(new Long(3), new Long(2), new Long(4), "visit");
+        Edge e4 = new Edge(new Long(4), new Long(2), new Long(5), "visit");
         testV.addEdge(e1);
         testV.addEdge(e2);
         testV.addEdge(e3);

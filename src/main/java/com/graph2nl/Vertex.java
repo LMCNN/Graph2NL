@@ -9,7 +9,7 @@ import java.util.*;
  * date; 2019.8.8
  */
 public class Vertex {
-    private Integer id;
+    private Long id;
     private Integer outDegree;
     private Map<String, List<Edge>> edgeMap;
     private String label;
@@ -21,7 +21,7 @@ public class Vertex {
      * @param label vertex label
      * @param name the name of the vertex
      */
-    public Vertex(Integer id, String label, String name) {
+    public Vertex(Long id, String label, String name) {
         this.id = id;
         this.edgeMap = new HashMap<>();
         this.label = label;
@@ -41,7 +41,7 @@ public class Vertex {
      * Gets the id of the vertex
      * @return the id of current vertex
      */
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 

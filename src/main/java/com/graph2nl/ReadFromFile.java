@@ -66,7 +66,7 @@ public class ReadFromFile {
                 for (int i = 0; i < line.length; i++){
                     System.out.print(line[i] + " ");
                 }
-                dg.addVertexToMap(new Vertex(Integer.valueOf(line[0]), line[1], line[2]));
+                dg.addVertexToMap(new Vertex(Long.valueOf(line[0]), line[1], line[2]));
                 System.out.println();
             }
             reader.close();
@@ -86,7 +86,7 @@ public class ReadFromFile {
                 for (int i = 0; i < line.length; i++){
                     System.out.print(line[i] + " ");
                 }
-                dg.addEdge(new Edge(Integer.valueOf(line[0]), Integer.valueOf(line[1]), Integer.valueOf(line[2]), line[3]));
+                dg.addEdge(new Edge(Long.valueOf(line[0]), Long.valueOf(line[1]), Long.valueOf(line[2]), line[3]));
                 System.out.println();
             }
             reader.close();
@@ -115,7 +115,7 @@ public class ReadFromFile {
                 Node nNode = nList.item(i);
                 if (nNode.getNodeType() == Node.ELEMENT_NODE) {
                     Element eElement = (Element) nNode;
-                    Integer id = Integer.valueOf( eElement.getAttribute("id"));
+                    Long id = Long.valueOf( eElement.getAttribute("id"));
                     String label = eElement.getAttribute("label");
                     String name = eElement.getElementsByTagName("attvalue").item(0).getAttributes().item(1).getTextContent();
                     System.out.println("Vertex: " + id + " " + label + " " + name);
@@ -130,9 +130,9 @@ public class ReadFromFile {
                 Node eNode = eList.item(i);
                 if (eNode.getNodeType() == Node.ELEMENT_NODE) {
                     Element eElement = (Element) eNode;
-                    Integer id = Integer.valueOf(eElement.getAttribute("id"));
-                    Integer from = Integer.valueOf(eElement.getAttribute("source"));
-                    Integer to = Integer.valueOf(eElement.getAttribute("target"));
+                    Long id = Long.valueOf(eElement.getAttribute("id"));
+                    Long from = Long.valueOf(eElement.getAttribute("source"));
+                    Long to = Long.valueOf(eElement.getAttribute("target"));
                     String label = eElement.getElementsByTagName("attvalue").item(0).getAttributes().item(1).getTextContent();
                     System.out.println("Edge: " + id + " " + from + " " + to + " " + label);
                     dg.addEdge(new Edge(id, from, to, label));

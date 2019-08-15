@@ -9,8 +9,8 @@ import java.util.*;
  *  date 2019.8.8
  */
 public class Digraph {
-    private Map<Integer, Vertex> vertexMap;
-    private List<Integer> outVertices;
+    private Map<Long, Vertex> vertexMap;
+    private List<Long> outVertices;
     private Map<String, EdgeLabel> edgeLabelMap;
     private Map<String, VertexLabel> vertexLabelMap;
 
@@ -18,8 +18,8 @@ public class Digraph {
      * The constructor of this class
      */
     public Digraph() {
-        this.vertexMap = new HashMap<>();
-        this.outVertices = new ArrayList<>();
+        this.vertexMap = new HashMap<Long, Vertex>();
+        this.outVertices = new ArrayList<Long>();
     }
 
     /**
@@ -52,7 +52,7 @@ public class Digraph {
      * Get all vertices with our degree greater than 0
      * @return a list of vertex
      */
-    public List<Integer> getOutVertices() {
+    public List<Long> getOutVertices() {
         updateOut();
         return outVertices;
     }
@@ -62,7 +62,7 @@ public class Digraph {
      * @param id the id of this vertex
      * @return the vertex needed
      */
-    public Vertex getVertexById(Integer id){
+    public Vertex getVertexById(Long id){
         return this.vertexMap.get(id);
     }
 
@@ -70,7 +70,7 @@ public class Digraph {
      * Update the out vertex list
      */
     private void updateOut(){
-        for (Integer key : vertexMap.keySet()) {
+        for (Long key : vertexMap.keySet()) {
             Vertex tmp = vertexMap.get(key);
             if (tmp.getOutDegree() > 0 && !outVertices.contains(key))
                 outVertices.add(key);
@@ -83,7 +83,7 @@ public class Digraph {
      * @return this edge
      */
     public Edge addEdge(Edge e){
-        Integer fromId = e.getFrom();
+        Long fromId = e.getFrom();
         Vertex currV = getVertexById(fromId);
         currV.addEdge(e);
         return e;

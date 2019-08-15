@@ -9,7 +9,7 @@ public class EdgeTest {
 
     @Before
     public void setup(){
-        e1 = new Edge(0,1, 2, "called");
+        e1 = new Edge(new Long(0),new Long(1), new Long(2), "called");
     }
 
     @Test
@@ -34,9 +34,9 @@ public class EdgeTest {
 
     @Test
     public void testEquals() {
-        Edge tmpE = new Edge(1,1, 2, "call");
-        Edge tmpE2 = new Edge(2,2, 1, "called");
-        Edge tmpE3 = new Edge(0,2, 1, "called");
+        Edge tmpE = new Edge(new Long(1), new Long(1), new Long(2), "call");
+        Edge tmpE2 = new Edge(new Long(2), new Long(2), new Long(1), "called");
+        Edge tmpE3 = new Edge(new Long(0), new Long(2), new Long(1), "called");
         Assert.assertTrue(e1.equals(e1));
         Assert.assertFalse(e1.equals(new Object()));
         Assert.assertFalse(e1.equals(tmpE));
