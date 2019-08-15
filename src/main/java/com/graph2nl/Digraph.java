@@ -172,6 +172,10 @@ public class Digraph {
         System.out.println("\n将要描述" + size + "个节点：");
     }
 
+    private void printVertices(Vertex vertex, Integer size){
+        if (size != 1) System.out.print(vertex.getLabel().print() + ": " + vertex.getName());
+        else System.out.print(vertex.getName());
+    }
     /**
      * Describe this graph using english
      */
@@ -188,14 +192,15 @@ public class Digraph {
                 List<Edge> edgeList = currV.getEdgeMap().get(label);
                 System.out.print(currV.getLabel().getName() + ": " + currV.getName() + label.print());
 
-                System.out.print("[");
+                if (edgeList.size() > 1) System.out.print("[");
                 Iterator<Edge> iterator = edgeList.iterator();
                 while (iterator.hasNext()){
                     Vertex distV = vertexMap.get(iterator.next().getTo().getId());
-                    System.out.print(distV.getLabel().print() + ": " + distV.getName());
+                    printVertices(distV, edgeList.size());
                     if (iterator.hasNext()) System.out.print("; ");
                 }
-                System.out.println("]");
+                if (edgeList.size() > 1) System.out.println("]");
+                else System.out.println();
             }
         }
     }

@@ -148,6 +148,13 @@ public class EdgeLabel implements Comparable<EdgeLabel>{
     }
 
     public String print(){
-        return " " + prefix + " " + name + " " + postfix+ " ";
+        if (postfix.equals("") && prefix.equals(""))
+            return " " + name + " ";
+        else if (prefix.equals(""))
+            return name + " " + postfix+ " ";
+        else if (postfix.equals(""))
+            return " " + prefix + " " + name;
+        else
+            return " " + prefix + " " + name + " " + postfix+ " ";
     }
 }
