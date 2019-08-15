@@ -4,5 +4,5 @@
 3,User,Geek Zhang,
 4,Number,110,
 5,Number,119
-6,APP,Meituan
+6,APP,WeChat
 7,Website,baidu.com

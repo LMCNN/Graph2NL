@@ -8,11 +8,11 @@ import java.util.*;
  * author: Mingchi Li
  * date; 2019.8.8
  */
-public class Vertex {
-    private Integer id;
+public class Vertex implements Comparable<Vertex>{
+    private Long id;
     private Integer outDegree;
-    private Map<String, List<Edge>> edgeMap;
-    private String label;
+    private Map<EdgeLabel, List<Edge>> edgeMap;
+    private VertexLabel label;
     private String name;
 
     /**
@@ -21,9 +21,9 @@ public class Vertex {
      * @param label vertex label
      * @param name the name of the vertex
      */
-    public Vertex(Integer id, String label, String name) {
+    public Vertex(Long id, VertexLabel label, String name) {
         this.id = id;
-        this.edgeMap = new HashMap<>();
+        this.edgeMap = new TreeMap<>();
         this.label = label;
         this.name = name;
         this.outDegree = 0;
@@ -41,7 +41,7 @@ public class Vertex {
      * Gets the id of the vertex
      * @return the id of current vertex
      */
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
@@ -49,7 +49,7 @@ public class Vertex {
      * Gets the label of the current vertex
      * @return the label of this vertex
      */
-    public String getLabel() {
+    public VertexLabel getLabel() {
         return label;
     }
 
@@ -67,7 +67,7 @@ public class Vertex {
      * @return this new edge
      */
     public Edge addEdge(Edge e){
-        String eLabel = e.getLabel();
+        EdgeLabel eLabel = e.getLabel();
         if (!edgeMap.containsKey(eLabel)){
             List<Edge> putList = new ArrayList<>();
             putList.add(e);
@@ -84,7 +84,7 @@ public class Vertex {
      * Get all edges of this vertex
      * @return a map of edges
      */
-    public Map<String, List<Edge>> getEdgeMap(){
+    public Map<EdgeLabel, List<Edge>> getEdgeMap(){
         return edgeMap;
     }
 
@@ -111,13 +111,17 @@ public class Vertex {
         return Objects.hash(id);
     }
 
+    /**
+     * The toString method
+     * @return A String contains all information of this vertex
+     */
     @Override
     public String toString() {
         return "Vertex\n{" +
                 "\n\tid=" + id +
                 ", \n\toutDegree=" + outDegree +
                 ", \n\tedgeMap=" + edgeMap +
-                ", \n\tlabel='" + label + '\'' +
+                ", \n\tlabel='" + label.getName() + '\'' +
                 ", \n\tname='" + name + '\'' +
                 "\n}";
     }
@@ -128,5 +132,15 @@ public class Vertex {
      */
     private String printMap(){
         return null;
+    }
+
+    /**
+     * compare two vertices by their label priority
+     * @param o the other vertex
+     * @return the result
+     */
+    @Override
+    public int compareTo(Vertex o) {
+        return label.compareTo(o.getLabel());
     }
 }

@@ -9,15 +9,33 @@ import java.util.*;
  *  date 2019.8.8
  */
 public class Digraph {
-    private Map<Integer, Vertex> vertexMap;
-    private List<Integer> outVertices;
+    private Map<Long, Vertex> vertexMap;
+    private List<Vertex> outVertices;
+    private Map<String, EdgeLabel> edgeLabelMap;
+    private Map<String, VertexLabel> vertexLabelMap;
 
     /**
      * The constructor of this class
      */
     public Digraph() {
-        this.vertexMap = new HashMap<>();
-        this.outVertices = new ArrayList<>();
+        this.vertexMap = new HashMap<Long, Vertex>();
+        this.outVertices = new ArrayList<Vertex>();
+    }
+
+    /**
+     * Load edgeLabelMap from configuration file
+     * @param edgeLabelMap map create by config file
+     */
+    public void setEdgeLabelMap(Map<String, EdgeLabel> edgeLabelMap) {
+        this.edgeLabelMap = edgeLabelMap;
+    }
+
+    /**
+     * Load vertexLabelMap from configuration file
+     * @param vertexLabelMap map create by config file
+     */
+    public void setVertexLabelMap(Map<String, VertexLabel> vertexLabelMap) {
+        this.vertexLabelMap = vertexLabelMap;
     }
 
     /**
@@ -34,7 +52,7 @@ public class Digraph {
      * Get all vertices with our degree greater than 0
      * @return a list of vertex
      */
-    public List<Integer> getOutVertices() {
+    public List<Vertex> getOutVertices() {
         updateOut();
         return outVertices;
     }
@@ -44,19 +62,54 @@ public class Digraph {
      * @param id the id of this vertex
      * @return the vertex needed
      */
-    public Vertex getVertexById(Integer id){
+    public Vertex getVertexById(Long id){
         return this.vertexMap.get(id);
+    }
+
+    /**
+     * get the vertex label map
+     * @return vertex label map
+     */
+    public Map<String, VertexLabel> getVertexLabelMap() {
+        return vertexLabelMap;
+    }
+
+    /**
+     * Get the edge label map
+     * @return edge label map
+     */
+    public Map<String, EdgeLabel> getEdgeLabelMap() {
+        return edgeLabelMap;
+    }
+
+    /**
+     * Get the vertex label object by its name
+     * @param name the name of vertex label
+     * @return the vertex label
+     */
+    public VertexLabel getVertexLabelByName(String name){
+        return vertexLabelMap.get(name);
+    }
+
+    /**
+     * Get the edge label object by it name
+     * @param name the name of edge label
+     * @return the edge label
+     */
+    public EdgeLabel getEdgeLabelByName(String name){
+        return edgeLabelMap.get(name);
     }
 
     /**
      * Update the out vertex list
      */
     private void updateOut(){
-        for (Integer key : vertexMap.keySet()) {
-            Vertex tmp = vertexMap.get(key);
-            if (tmp.getOutDegree() > 0 && !outVertices.contains(key))
-                outVertices.add(key);
+        Collection<Vertex> vertices = vertexMap.values();
+        for (Vertex curr : vertices) {
+            if (curr.getOutDegree() > 0 && !outVertices.contains(curr))
+                outVertices.add(curr);
         }
+        Collections.sort(outVertices);
     }
 
     /**
@@ -65,8 +118,8 @@ public class Digraph {
      * @return this edge
      */
     public Edge addEdge(Edge e){
-        Integer fromId = e.getFrom();
-        Vertex currV = getVertexById(fromId);
+        Vertex fromV = e.getFrom();
+        Vertex currV = getVertexById(fromV.getId());
         currV.addEdge(e);
         return e;
     }
@@ -77,82 +130,77 @@ public class Digraph {
      */
     @Override
     public String toString() {
-        updateOut();
-        return "Digraph\n{\n" +
-                "\t\nvertexMap=" + vertexMap.toString() +
-                ", \noutVertices=" + outVertices +
+        return "Digraph{" +
+                "\nvertexMap=" + vertexMap + ",\n " +
+                printOutVertices() +
+                ",\n edgeLabelMap=" + edgeLabelMap +
+                ",\n vertexLabelMap=" + vertexLabelMap +
                 "\n}";
     }
 
     /**
-     * Describe this graph using english
+     * helper method for print the out vertices
+     * @return A out vertices string
      */
-    public void toEnglish(){
-        updateOut();
-        Integer numOut = outVertices.size();
-        System.out.print("\nWe are going to describe " + numOut);
-        if (numOut <= 1){
+    private String printOutVertices(){
+        StringBuilder builder = new StringBuilder("outVertices = {");
+        for (Vertex curr : outVertices){
+            builder.append(curr.getId());
+            builder.append(", ");
+        }
+        builder.append("}");
+        return builder.toString();
+    }
+
+    /**
+     * helper method for Describe
+     */
+    private void printEnglish(Integer size){
+        System.out.print("\nWe are going to describe " + size);
+        if (size == 1){
             System.out.println(" vertex:");
         }
         else {
             System.out.println(" vertices:");
         }
-        for (int i = 0; i < numOut; i++){
-            System.out.println("-----------------------------------");
-            Vertex currV = getVertexById(outVertices.get(i));
-             if (currV.getEdgeMap().containsKey("is")){
-                 List<Edge> listV = currV.getEdgeMap().get("is");
-                 for (Edge e : listV) {
-                     System.out.println(currV.getLabel() + ": " + currV.getName() + " is " + vertexMap.get(e.getTo()).getName() + ".");
-                 }
-             }
-             for (String label : currV.getEdgeMap().keySet()){
-                 if (!label.equals("is")){
-                     List<Edge> edgeList = currV.getEdgeMap().get(label);
-                     int size = edgeList.size();
-                     System.out.print(currV.getLabel() + ": " + currV.getName() + " " + label + " ");
-                     System.out.print("[");
-                     for (Edge e : edgeList){
-                         Vertex distV = vertexMap.get(e.getTo());
-                         System.out.print(distV.getLabel() + ": " + distV.getName() + "; ");
-                     }
-                     System.out.println("]");
-                 }
-             }
-        }
     }
 
     /**
-     * Describe this graph using Chinese
+     * helper method for Describe
      */
-    public void toChinese(){
+    private void printChinese(Integer size){
+        System.out.println("\n将要描述" + size + "个节点：");
+    }
+
+    private void printVertices(Vertex vertex, Integer size){
+        if (size != 1) System.out.print(vertex.getLabel().print() + ": " + vertex.getName());
+        else System.out.print(vertex.getName());
+    }
+    /**
+     * Describe this graph using english
+     */
+    public void describe(Character language) {
         updateOut();
         Integer numOut = outVertices.size();
+        if (language == 'z') printChinese(numOut);
+        if (language == 'e') printEnglish(numOut);
 
-        System.out.println("\n我们要描述以下" + numOut + "个节点：");
+        for (Vertex currV : outVertices){
+            System.out.println("--------------------------------------------------------");
 
-        for (int i = 0; i < numOut; i++){
-            System.out.println("-----------------------------------");
-            Vertex currV = getVertexById(outVertices.get(i));
-            if (currV.getEdgeMap().containsKey("是")){
-                List<Edge> listV = currV.getEdgeMap().get("是");
-                for (Edge e : listV) {
-                    System.out.println(currV.getLabel() + ": " + currV.getName() + " 是 "
-                            + vertexMap.get(e.getTo()).getName() + ".");
+            for (EdgeLabel label : currV.getEdgeMap().keySet()){
+                List<Edge> edgeList = currV.getEdgeMap().get(label);
+                System.out.print(currV.getLabel().getName() + ": " + currV.getName() + label.print());
+
+                if (edgeList.size() > 1) System.out.print("[");
+                Iterator<Edge> iterator = edgeList.iterator();
+                while (iterator.hasNext()){
+                    Vertex distV = vertexMap.get(iterator.next().getTo().getId());
+                    printVertices(distV, edgeList.size());
+                    if (iterator.hasNext()) System.out.print("; ");
                 }
-            }
-            for (String label : currV.getEdgeMap().keySet()){
-                if (!label.equals("是")){
-                    List<Edge> edgeList = currV.getEdgeMap().get(label);
-                    int size = edgeList.size();
-                    System.out.print(currV.getLabel() + ": " + currV.getName() + " " + label);
-                    System.out.print(" [");
-                    for (Edge e : edgeList){
-                        Vertex distV = vertexMap.get(e.getTo());
-                        System.out.print(distV.getLabel() + ": " + distV.getName() + "; ");
-                    }
-                    System.out.println("]");
-                }
+                if (edgeList.size() > 1) System.out.println("]");
+                else System.out.println();
             }
         }
     }

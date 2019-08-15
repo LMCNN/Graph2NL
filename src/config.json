@@ -1,0 +1,50 @@
+{
+  "VertexLabel": [
+    {
+      "name":"User",
+      "priority":2
+    },
+    {
+      "name":"Number",
+      "priority":1
+    },
+    {
+      "name":"Character",
+      "priority":0
+    },
+    {
+      "name":"Website",
+      "priority":3
+    },
+    {
+      "name":"APP",
+      "priority":4
+    }
+  ],
+  "EdgeLabel": [
+    {
+      "name":"called",
+      "priority":1,
+      "prefix":"",
+      "postfix":""
+    },
+    {
+      "name":"message",
+      "priority":2,
+      "prefix":"send",
+      "postfix":"to"
+    },
+    {
+      "name":"visit",
+      "priority":4,
+      "prefix":"",
+      "postfix":""
+    },
+    {
+      "name":"is",
+      "priority":0,
+      "prefix":"",
+      "postfix":""
+    }
+  ]
+}

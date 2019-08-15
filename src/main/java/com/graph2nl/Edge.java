@@ -8,11 +8,11 @@ import java.util.Objects;
  * Date: 2019.8.7
  * author: Mingchi Li
  */
-public class Edge {
-    private Integer id;
-    private Integer from;
-    private Integer to;
-    private String label;
+public class Edge implements Comparable<Edge>{
+    private Long id;
+    private Vertex from;
+    private Vertex to;
+    private EdgeLabel label;
 
     /**
      * Constructor of the Edge class
@@ -20,7 +20,7 @@ public class Edge {
      * @param to Edge termination point
      * @param label Edge label
      */
-    public Edge(Integer id, Integer from, Integer to, String label) {
+    public Edge(Long id, Vertex from, Vertex to, EdgeLabel label) {
         this.id = id;
         this.from = from;
         this.to = to;
@@ -31,7 +31,7 @@ public class Edge {
      * Get the vertex Id of this edge
      * @return current edge id
      */
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
@@ -39,7 +39,7 @@ public class Edge {
      * Get the vertex Id of current vertex
      * @return current vertex id
      */
-    public Integer getFrom() {
+    public Vertex getFrom() {
         return from;
     }
 
@@ -47,7 +47,7 @@ public class Edge {
      * Get the vertex Id of this edge points to
      * @return dist vertex id
      */
-    public Integer getTo() {
+    public Vertex getTo() {
         return to;
     }
 
@@ -55,7 +55,7 @@ public class Edge {
      * Get the label of this edge
      * @return the label name
      */
-    public String getLabel() {
+    public EdgeLabel getLabel() {
         return label;
     }
 
@@ -78,7 +78,7 @@ public class Edge {
      */
     @Override
     public String toString() {
-        return from + "-" + label + "->" + to;
+        return from.getId() + "-" + label.getName() + "->" + to.getId();
     }
 
     /**
@@ -88,5 +88,15 @@ public class Edge {
     @Override
     public int hashCode() {
         return Objects.hash(from, to, label);
+    }
+
+    /**
+     * Compare two edges by their edge label priority
+     * @param o the other edge
+     * @return the result
+     */
+    @Override
+    public int compareTo(Edge o) {
+        return 0;
     }
 }

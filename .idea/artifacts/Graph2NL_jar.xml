@@ -1,9 +1,14 @@
 <component name="ArtifactManager">
-  <artifact type="jar" name="Graph2NL:jar">
+  <artifact name="Graph2NL:jar">
     <output-path>$PROJECT_DIR$/classes/artifacts/Graph2NL_jar</output-path>
-    <root id="archive" name="Graph2NL.jar">
-      <element id="module-output" name="Graph2NL" />
-      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/gnu/getopt/java-getopt/1.0.13/java-getopt-1.0.13.jar" path-in-jar="/" />
+    <root id="root">
+      <element id="archive" name="Graph2NL.jar">
+        <element id="module-output" name="Graph2NL" />
+      </element>
+      <element id="directory" name="library">
+        <element id="library" level="project" name="Maven: gnu.getopt:java-getopt:1.0.13" />
+        <element id="library" level="project" name="Maven: com.googlecode.json-simple:json-simple:1.1.1" />
+      </element>
     </root>
   </artifact>
 </component>

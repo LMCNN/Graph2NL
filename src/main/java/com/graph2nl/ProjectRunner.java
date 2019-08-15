@@ -1,8 +1,11 @@
 package com.graph2nl;
 
 import gnu.getopt.Getopt;
+import org.json.simple.parser.ParseException;
 
 import java.io.File;
+import java.io.IOException;
+import java.util.*;
 
 /**
  * This class contains the main method to run this project
@@ -12,36 +15,45 @@ import java.io.File;
  */
 public class ProjectRunner {
     public static void usage(){
-        System.out.println("Usage:java -jar Graph2NL.jar (-h | -(e|z) -(v|g)(argument))\n" +
-                "\t\t\t\t-h\tPrint this help\n" +
-                "\t\t\t\t-e\tPrint out English result\n" +
-                "\t\t\t\t-z\tPrint out Chinese result\n" +
-                "\t\t\t\t-v\tUse .e.v file as input\n" +
-                "\t\t\t\t-g\tUse .gexf file as input\n" +
-                "\t\t\t\targument:For .e.v file is the directory contain those two file\n" +
-                "         \t\t\t\tFor .gexf file is it filename");
+        System.out.println("Usage: java -jar Graph2NL.jar [-h] [-e | -z] [-v <path> | -g <fileName>]  [-c <fileName>]\n\n" +
+                "\t-h\tprint this help\n\n" +
+                "\t-c <fileName>: use .json config file\n\n" +
+                "\t-e\tdescribe the graph by English\n\n" +
+                "\t-z\tdescribe the graph by Chinese\n\n" +
+                "\t-v <directory>: use .e.v file as input file\n\n" +
+                "\t-g <fileName>: use .gexf file as input file");
     }
 
     public static void main(String[] args){
+        if (args.length == 0){
+            usage();
+            System.exit(0);
+        }
+
         Digraph dg = new Digraph();
-        int language = 0;
-        if (args.length == 0) usage();
-        Getopt g = new Getopt("Graph2NL", args, "v:g:ceh");
+        char language = 'e';
+        String config = null;
+        List<String> fileNames = new ArrayList<>();
+
+        //parse options and their argument
+        Getopt g = new Getopt("Graph2NL", args, "c:v:g:zeh");
         int c;
         String arg;
         while ((c = g.getopt()) != -1) {
             switch(c) {
                 case 'h':
                     usage();
+                    System.exit(0);
                     break;
                 case 'e':
-                    language = 0;
+                case 'z':
+                    language = (char) c;
                     break;
                 case 'c':
-                    language = 1;
+                    config = g.getOptarg();
                     break;
                 case 'g':
-                    dg = ReadFromFile.parseGEXF(g.getOptarg());
+                    fileNames.add(g.getOptarg());
                     break;
                 case 'v':
                     File folder = new File(g.getOptarg());
@@ -51,11 +63,12 @@ public class ProjectRunner {
                         if (listOfFiles[i].isFile()) {
                             String temp = listOfFiles[i].getName();
                             temp = temp.substring(temp.length() - 2);
-                            if (temp.equals(".v")) fileName[0] = g.getOptarg() + "/" + listOfFiles[i].getName();
-                            if (temp.equals(".e")) fileName[1] = g.getOptarg() + "/" + listOfFiles[i].getName();
+                            fileNames.add("");
+                            fileNames.add("");
+                            if (temp.equals(".v")) fileNames.set(0, g.getOptarg() + "/" + listOfFiles[i].getName());
+                            if (temp.equals(".e")) fileNames.set(1, g.getOptarg() + "/" + listOfFiles[i].getName());
                         }
                     }
-                    dg = ReadFromFile.ReadFromCSV(fileName[0], fileName[1]);
                     break;
                 case '?':
                     break; // getopt() already printed an error
@@ -63,7 +76,27 @@ public class ProjectRunner {
                     System.out.print("getopt() returned " + c + "\n");
             }
         }
-        if (language == 0) dg.toEnglish();
-        if (language == 1) dg.toChinese();
+
+        //load config file
+        if (config != null){
+            try {
+                ReadFromFile.loadConfig(config, dg);
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+
+        //load the graph
+        if (fileNames.size() == 1){
+            ReadFromFile.parseGEXF(fileNames.get(0), dg);
+        }
+        else {
+            ReadFromFile.ReadFromCSV(fileNames.get(0), fileNames.get(1), dg);
+        }
+
+        //describe the graph
+        dg.describe(language);
     }
 }
