@@ -2,11 +2,11 @@
   "VertexLabel": [
     {
       "name":"User",
-      "priority":1
+      "priority":2
     },
     {
       "name":"Number",
-      "priority":2
+      "priority":1
     },
     {
       "name":"Character",

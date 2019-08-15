@@ -182,11 +182,11 @@ public class Digraph {
     public void describe(Character language) {
         updateOut();
         Integer numOut = outVertices.size();
-        if (language == 'c') printChinese(numOut);
+        if (language == 'z') printChinese(numOut);
         if (language == 'e') printEnglish(numOut);
 
         for (Vertex currV : outVertices){
-            System.out.println("-----------------------------------");
+            System.out.println("--------------------------------------------------------");
 
             for (EdgeLabel label : currV.getEdgeMap().keySet()){
                 List<Edge> edgeList = currV.getEdgeMap().get(label);
