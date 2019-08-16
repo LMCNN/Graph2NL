@@ -41,14 +41,17 @@ public class VertexTest {
         testV.addEdge(e3);
         testV.addEdge(e4);
         Assert.assertTrue(testV.getOutDegree() == 4);
-        String result = "Vertex\n" +
-                "{\n" +
-                "\tid=1, \n" +
+        testV.putAttribute("gender", "male");
+        testV.putAttribute("age", "19");
+        String result = "Vertex{\n" +
+                "\tid=1,\n" +
                 "\toutDegree=4, \n" +
-                "\tedgeMap={ called =[1-called->2],  visit =[1-visit->4, 1-visit->5],  message =[1-message->3]}, \n" +
-                "\tlabel='User', \n" +
-                "\tname='Mingchi'\n" +
+                "\tedgeMap=3, \n" +
+                "\tlabel=User, \n" +
+                "\tname='Mingchi', \n" +
+                "\tattributes={gender=male, age=19}\n" +
                 "}";
         Assert.assertEquals(testV.toString(), result);
+        Assert.assertEquals(testV.print(), "Mingchi {gender=male, age=19}");
     }
 }

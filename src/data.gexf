@@ -8,9 +8,6 @@
       <attributes class="node">
          <attribute id="0" title="name" type="string" />
       </attributes>
-      <attributes class="edge">
-         <attribute id="0" title="name" type="string" />
-      </attributes>
       <nodes>
          <node id="0" label="Character">
             <attvalues>
@@ -44,71 +41,27 @@
          </node>
          <node id="6" label="APP">
             <attvalues>
-               <attvalue for="0" value="Meituan" />
+               <attvalue for="0" value="WeChat" />
             </attvalues>
          </node>
          <node id="7" label="Website">
             <attvalues>
-               <attvalue for="0" value="baidu.com" />
+               <attvalue for="0" value="360.com" />
             </attvalues>
          </node>
       </nodes>
       <edges>
-         <edge id="0" source="2" target="4">
-            <attvalues>
-               <attvalue for="0" value="called" />
-            </attvalues>
-         </edge>
-         <edge id="1" source="2" target="4">
-            <attvalues>
-               <attvalue for="0" value="called" />
-            </attvalues>
-         </edge>
-         <edge id="2" source="4" target="2">
-            <attvalues>
-               <attvalue for="0" value="message" />
-            </attvalues>
-         </edge>
-         <edge id="3" source="2" target="5">
-            <attvalues>
-               <attvalue for="0" value="called" />
-            </attvalues>
-         </edge>
-         <edge id="4" source="3" target="5">
-            <attvalues>
-               <attvalue for="0" value="called" />
-            </attvalues>
-         </edge>
-         <edge id="5" source="5" target="3">
-            <attvalues>
-               <attvalue for="0" value="message" />
-            </attvalues>
-         </edge>
-         <edge id="6" source="2" target="1">
-            <attvalues>
-               <attvalue for="0" value="is" />
-            </attvalues>
-         </edge>
-         <edge id="7" source="3" target="0">
-            <attvalues>
-               <attvalue for="0" value="is" />
-            </attvalues>
-         </edge>
-         <edge id="8" source="2" target="6">
-            <attvalues>
-               <attvalue for="0" value="visit" />
-            </attvalues>
-         </edge>
-         <edge id="9" source="3" target="6">
-            <attvalues>
-               <attvalue for="0" value="visit" />
-            </attvalues>
-         </edge>
-         <edge id="10" source="3" target="7">
-            <attvalues>
-               <attvalue for="0" value="visit" />
-            </attvalues>
-         </edge>
+         <edge id="0" source="2" target="4" label="called"/>
+         <edge id="1" source="2" target="4" label="called"/>
+         <edge id="2" source="4" target="2" label="message"/>
+         <edge id="3" source="2" target="5" label="called"/>
+         <edge id="4" source="3" target="5" label="called"/>
+         <edge id="5" source="5" target="3" label="message"/>
+         <edge id="6" source="2" target="1" label="is"/>
+         <edge id="7" source="3" target="0" label="is"/>
+         <edge id="8" source="2" target="6" label="visit"/>
+         <edge id="9" source="3" target="6" label="visit"/>
+         <edge id="10" source="3" target="7" label="visit"/>
       </edges>
    </graph>
 </gexf>

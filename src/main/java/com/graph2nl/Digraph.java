@@ -190,7 +190,7 @@ public class Digraph {
 
             for (EdgeLabel label : currV.getEdgeMap().keySet()){
                 List<Edge> edgeList = currV.getEdgeMap().get(label);
-                System.out.print(currV.getLabel().getName() + ": " + currV.getName() + label.print());
+                System.out.print(currV.getLabel().getName() + ": " + currV.print() + label.print());
 
                 if (edgeList.size() > 1) System.out.print("[");
                 Iterator<Edge> iterator = edgeList.iterator();

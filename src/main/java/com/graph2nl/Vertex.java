@@ -14,6 +14,21 @@ public class Vertex implements Comparable<Vertex>{
     private Map<EdgeLabel, List<Edge>> edgeMap;
     private VertexLabel label;
     private String name;
+    private Map<String, String> attributes;
+
+    /**
+     * The constructor for the vertex class
+     * @param id the id of the vertex
+     * @param label vertex label
+     */
+    public Vertex(Long id, VertexLabel label) {
+        this.id = id;
+        this.label = label;
+        this.edgeMap = new TreeMap<>();
+        this.attributes = new HashMap<>();
+        this.outDegree = 0;
+        this.name = "";
+    }
 
     /**
      * The constructor for the vertex class
@@ -27,6 +42,16 @@ public class Vertex implements Comparable<Vertex>{
         this.label = label;
         this.name = name;
         this.outDegree = 0;
+        this.attributes = new HashMap<>();
+    }
+
+    /**
+     * set a attribute to this vertex
+     * @param key the attribute name
+     * @param value the attribute value
+     */
+    public void putAttribute(String key, String value){
+        attributes.put(key, value);
     }
 
     /**
@@ -59,6 +84,14 @@ public class Vertex implements Comparable<Vertex>{
      */
     public String getName() {
         return name;
+    }
+
+    /**
+     * Set the vertex name
+     * @param name the name of the vertex
+     */
+    public void setName(String name) {
+        this.name = name;
     }
 
     /**
@@ -117,12 +150,13 @@ public class Vertex implements Comparable<Vertex>{
      */
     @Override
     public String toString() {
-        return "Vertex\n{" +
+        return "Vertex{" +
                 "\n\tid=" + id +
-                ", \n\toutDegree=" + outDegree +
-                ", \n\tedgeMap=" + edgeMap +
-                ", \n\tlabel='" + label.getName() + '\'' +
+                ",\n\toutDegree=" + outDegree +
+                ", \n\tedgeMap=" + edgeMap.size() +
+                ", \n\tlabel=" + label.getName() +
                 ", \n\tname='" + name + '\'' +
+                ", \n\tattributes=" + attributes +
                 "\n}";
     }
 
@@ -142,5 +176,16 @@ public class Vertex implements Comparable<Vertex>{
     @Override
     public int compareTo(Vertex o) {
         return label.compareTo(o.getLabel());
+    }
+
+    /**
+     * print this vertex name and it's attributes
+     * @return vertex name and its attributes
+     */
+    public String print(){
+        StringBuilder builder = new StringBuilder(name);
+        if (attributes.size() > 0)
+            builder.append(" " + attributes);
+        return builder.toString();
     }
 }
