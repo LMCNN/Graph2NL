@@ -17,11 +17,11 @@
 
    - Windows:  `java -Dfile.encoding=utf-8 -jar Graph2NL.jar [-h] [-e | -z]`
 
-     ` [-v <path> | -g <fileName>]  [-c <fileName>]`
+     ​					` [-v <path> | -g <fileName>]  [-c <fileName>]`
 
    - Mac:      `java -jar Graph2NL.jar [-h] [-e | -z] [-v <path> |`
 
-     ` -g <fileName>]  [-c <fileName>]`
+     ​				` -g <fileName>]  [-c <fileName>]`
 
 ### 选择项
 
@@ -85,6 +85,8 @@
 
 头文件部分不做分析主要需要配置属性，节点和边的部分。
 
+用户可以在属性部分配置各个节点和边在描述的时候的优先级，以及边的前缀和后缀。
+
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- 头文件分 -->
@@ -94,11 +96,25 @@
       <description>Demo network</description>
    </meta>
    <graph defaultedgetype="directed">
+       
        <!-- 属性部分 -->
+       <attributes class="vertexLabel">
+         <attribute name="User" priority="2"/>
+          ...
+          <!-- 添加更多节点标签的属性 -->
+          ...
+      </attributes>
+      <attributes class="edgeLabel">
+         <attribute name="called" priority="1" prefix="" postfix=""/>
+          ...
+          <!-- 添加更多边的标签类的属性 -->
+          ...
+      </attributes>
       <attributes class="node">
          <attribute id="0" title="name" type="string" />
-         <attribute id="1" title="gender" type="string"/>
-         <attribute id="2" title="age" type="string"/>
+          ...
+          <!-- 添加更多节点的属性 -->
+          ...
       </attributes>
        <!-- 节点部分 -->
       <nodes>
@@ -108,14 +124,14 @@
             </attvalues>
          </node>
          ...
-          <!-- 添加更多的节点 -->
+         <!-- 添加更多的节点 -->
          ...
       </nodes>
        <!-- 边部分 -->
       <edges>
          <edge id="0" source="2" target="4" label="called"/>
          ...
-          <!-- 添加更多的边 -->
+         <!-- 添加更多的边 -->
          ...
       </edges>
    </graph>
