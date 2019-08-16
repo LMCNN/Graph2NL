@@ -25,7 +25,7 @@ public class ReadFromFileTest {
     @Test
     public void testParseGEXF() throws IOException, ParseException {
         Digraph dg = new Digraph();
-        ReadFromFile.parseGEXF("src/template.gexf", dg);
+        ReadFromFile.parseGEXF("src/data.gexf", dg);
 
         dg.describe('e');
     }
