@@ -83,47 +83,42 @@
 
 此文件主要分为四个部分：头文件分，属性部分，节点部分和边部分。
 
-头文件部分和属性目前暂不做分析主要需要配置节点和边的部分。
+头文件部分不做分析主要需要配置属性，节点和边的部分。
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- 头文件分 -->
-<gexf xmlns="http://www.gexf.net/1.2draft"xmlns:xsi="http://www.w3.org/2001/XMLSchemainstance" xsi:schemaLocation="http://www.gexf.net/1.2drafthttp://www.gexf.net/1.2draft/gexf.xsd" version="1.2">
-    <meta lastmodifieddate="2019-08-12">
-        <creator>Mingchi Li</creator>
-        <description>Demo network</description>
-    </meta>
-    <graph defaultedgetype="directed">
-        <!-- 属性部分 -->
-        <attributes class="node">
-        	<attribute id="0" title="name" type="string" />
-        </attributes>
-        <attributes class="edge">
-        	<attribute id="0" title="name" type="string" />
-        </attributes>
-    	<!-- 节点部分 -->
-        <nodes>
-            <node id="0" label="Character">
-                <attvalues>
-                    <attvalue for="0" value="fake" />
-                </attvalues>
-            </node>
-            ...
-            <!-- 添加更多的节点 -->
-            ...
-        </nodes>
-        <!-- 边部分 -->
-    	<edges>
-            <edge id="0" source="2" target="4">
-                <attvalues>
-                	<attvalue for="0" value="called" />
-                </attvalues>
-            </edge>
-        	...
-            <!-- 添加更多的边 -->
-            ...
-        </edges>
-    </graph>
+<gexf xmlns="http://www.gexf.net/1.2draft" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.gexf.net/1.2draft http://www.gexf.net/1.2draft/gexf.xsd" version="1.2">
+   <meta lastmodifieddate="2019-08-12">
+      <creator>Mingchi Li</creator>
+      <description>Demo network</description>
+   </meta>
+   <graph defaultedgetype="directed">
+       <!-- 属性部分 -->
+      <attributes class="node">
+         <attribute id="0" title="name" type="string" />
+         <attribute id="1" title="gender" type="string"/>
+         <attribute id="2" title="age" type="string"/>
+      </attributes>
+       <!-- 节点部分 -->
+      <nodes>
+         <node id="0" label="Character">
+            <attvalues>
+               <attvalue for="0" value="fake" />
+            </attvalues>
+         </node>
+         ...
+          <!-- 添加更多的节点 -->
+         ...
+      </nodes>
+       <!-- 边部分 -->
+      <edges>
+         <edge id="0" source="2" target="4" label="called"/>
+         ...
+          <!-- 添加更多的边 -->
+         ...
+      </edges>
+   </graph>
 </gexf>
 ```
 
