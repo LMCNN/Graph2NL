@@ -137,7 +137,9 @@ public class ReadFromFile {
             doc.getDocumentElement().normalize();
 
             //Parse label configuration and attributes
-            NodeList vLabelList = null, eLabelList = null, aList = null;
+            NodeList vLabelList = null;
+            NodeList eLabelList = null;
+            NodeList aList = null;
             NodeList acList = doc.getElementsByTagName("attributes");
             for (int i = 0; i < acList.getLength(); i++){
                 Node acNode = acList.item(i);
@@ -158,14 +160,20 @@ public class ReadFromFile {
 
             //load vertex label map to dg
             if (vLabelList != null){
-                Map<String, VertexLabel> tempMapV = new HashMap<>();
+                Map<String, VertexLabel> tempMapV;
+                if (dg.getVertexLabelMap() == null){
+                    tempMapV = new HashMap<>();
+                }
+                else {
+                    tempMapV = dg.getVertexLabelMap();
+                }
                 for (int i = 0; i < vLabelList.getLength(); i++){
                     Node vlNode = vLabelList.item(i);
                     if (vlNode.getNodeType() == Node.ELEMENT_NODE){
                         Element vlElement = (Element) vlNode;
                         String name = vlElement.getAttribute("name");
                         Long priority = Long.valueOf(vlElement.getAttribute("priority"));
-                        tempMapV.put(name, new VertexLabel(name, priority));
+                        if (!tempMapV.containsKey(name)) tempMapV.put(name, new VertexLabel(name, priority));
                     }
                 }
                 dg.setVertexLabelMap(tempMapV);
@@ -173,7 +181,13 @@ public class ReadFromFile {
 
             //load edge label map to dg
             if (eLabelList != null){
-                Map<String, EdgeLabel> tempMapE = new HashMap<>();
+                Map<String, EdgeLabel> tempMapE;
+                if (dg.getEdgeLabelMap() == null){
+                    tempMapE = new HashMap<>();
+                }
+                else {
+                    tempMapE = dg.getEdgeLabelMap();
+                }
                 for (int i = 0; i < eLabelList.getLength(); i++){
                     Node elNode = eLabelList.item(i);
                     if (elNode.getNodeType() == Node.ELEMENT_NODE){
@@ -182,7 +196,7 @@ public class ReadFromFile {
                         Long priority = Long.valueOf(elElement.getAttribute("priority"));
                         String prefix =  elElement.getAttribute("prefix");
                         String postfix =  elElement.getAttribute("postfix");
-                        tempMapE.put(name, new EdgeLabel(name, priority, prefix, postfix));
+                        if(!tempMapE.containsKey(name)) tempMapE.put(name, new EdgeLabel(name, priority, prefix, postfix));
                     }
                 }
                 dg.setEdgeLabelMap(tempMapE);
