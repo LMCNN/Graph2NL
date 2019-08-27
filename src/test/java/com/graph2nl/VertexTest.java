@@ -52,6 +52,6 @@ public class VertexTest {
                 "\tattributes={gender=male, age=19}\n" +
                 "}";
         Assert.assertEquals(testV.toString(), result);
-        Assert.assertEquals(testV.print(), "Mingchi {gender=male, age=19}");
+        Assert.assertEquals(testV.print(false), "Mingchi {gender=male, age=19}");
     }
 }

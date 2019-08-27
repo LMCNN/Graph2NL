@@ -182,9 +182,9 @@ public class Vertex implements Comparable<Vertex>{
      * print this vertex name and it's attributes
      * @return vertex name and its attributes
      */
-    public String print(){
+    public String print(boolean printAttr){
         StringBuilder builder = new StringBuilder(name);
-        if (attributes.size() > 0)
+        if (printAttr && attributes.size() > 0)
             builder.append(" " + attributes);
         return builder.toString();
     }

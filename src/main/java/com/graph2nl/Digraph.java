@@ -185,13 +185,17 @@ public class Digraph {
         if (language == 'z') printChinese(numOut);
         if (language == 'e') printEnglish(numOut);
 
+        //outer loop for vertices which out degree greater than 0
         for (Vertex currV : outVertices){
             System.out.println("--------------------------------------------------------");
 
+            //loop for vertices' edges
+            boolean isFirst = true;
             for (EdgeLabel label : currV.getEdgeMap().keySet()){
-                List<Edge> edgeList = currV.getEdgeMap().get(label);
-                System.out.print(currV.getLabel().getName() + ": " + currV.print() + label.print());
+                System.out.print(currV.getLabel().getName() + ": " + currV.print(isFirst) + label.print());
+                isFirst = false;
 
+                List<Edge> edgeList = currV.getEdgeMap().get(label);
                 if (edgeList.size() > 1) System.out.print("[");
                 Iterator<Edge> iterator = edgeList.iterator();
                 while (iterator.hasNext()){

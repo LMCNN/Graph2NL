@@ -80,19 +80,19 @@ public class ReadFromFile {
             String temp = null;
             while ((temp = reader.readLine()) != null) {
                 String[] line = temp.split(",");
-                for (int i = 0; i < line.length; i++){
-                    System.out.print(line[i] + " ");
-                }
+//                for (int i = 0; i < line.length; i++){
+//                    System.out.print(line[i] + " ");
+//                }
                 if (!vLabelMap.containsKey(line[1])) vLabelMap.put(line[1], new VertexLabel(line[1]));
                 dg.addVertexToMap(new Vertex(Long.valueOf(line[0]), dg.getVertexLabelByName(line[1]), line[2]));
-                System.out.println();
+//                System.out.println();
             }
             reader.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        System.out.println("\n-------------------------------------------\n");
+//        System.out.println("\n-------------------------------------------\n");
 
         File eFile = new File(eFileName);
         reader = null;
@@ -109,15 +109,15 @@ public class ReadFromFile {
             String temp = null;
             while ((temp = reader.readLine()) != null) {
                 String[] line = temp.split(",");
-                for (int i = 0; i < line.length; i++){
-                    System.out.print(line[i] + " ");
-                }
+//                for (int i = 0; i < line.length; i++){
+//                    System.out.print(line[i] + " ");
+//                }
                 if (!eLabelMap.containsKey(line[3])) eLabelMap.put(line[3], new EdgeLabel(line[3]));
                 dg.addEdge(new Edge(Long.valueOf(line[0]),
                         dg.getVertexById(Long.valueOf(line[1])),
                         dg.getVertexById(Long.valueOf(line[2])),
                         dg.getEdgeLabelByName(line[3])));
-                System.out.println();
+//                System.out.println();
             }
             reader.close();
         } catch (IOException e) {
