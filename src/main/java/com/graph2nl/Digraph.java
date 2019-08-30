@@ -222,25 +222,20 @@ public class Digraph {
         JSONObject result = new JSONObject();
 
         //outer loop for vertices which out degree greater than 0
-        for (Vertex currV : outVertices) {
-            String currVName = currV.getLabel().getName() + ":" + currV.getName();
-
-            JSONObject edgeObj = new JSONObject();
+        for (Vertex currV : outVertices){
             //loop for vertices' edges
-            for (EdgeLabel label : currV.getEdgeMap().keySet()) {
-                String currLName = label.getName();
-                JSONArray toVertexArray = new JSONArray();
-                //loop for the dist vertices
+            JSONObject currLabel = new JSONObject();
+            for (EdgeLabel label : currV.getEdgeMap().keySet()){
                 List<Edge> edgeList = currV.getEdgeMap().get(label);
                 Iterator<Edge> iterator = edgeList.iterator();
-                while (iterator.hasNext()) {
-                    Edge currE = iterator.next();
-                    Vertex distV = vertexMap.get(currE.getTo().getId());
-                    toVertexArray.add(distV.getLabel().getName() + ":" + distV.getName());
+                JSONArray to = new JSONArray();
+                while (iterator.hasNext()){
+                    Vertex distV = vertexMap.get(iterator.next().getTo().getId());
+                    to.add(distV);
                 }
-                edgeObj.put(currLName, toVertexArray);
+                currLabel.put(label, to);
             }
-            result.put(currVName, edgeObj);
+            result.put(currV, currLabel);
         }
 
         return  result;

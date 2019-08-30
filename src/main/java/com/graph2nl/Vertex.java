@@ -150,14 +150,15 @@ public class Vertex implements Comparable<Vertex>{
      */
     @Override
     public String toString() {
-        return "Vertex{" +
-                "\n\tid=" + id +
-                ",\n\toutDegree=" + outDegree +
-                ", \n\tedgeMap=" + edgeMap.size() +
-                ", \n\tlabel=" + label.getName() +
-                ", \n\tname='" + name + '\'' +
-                ", \n\tattributes=" + attributes +
-                "\n}";
+        return label.getName() + ":" + name;
+//        return "Vertex{" +
+//                "\n\tid=" + id +
+//                ",\n\toutDegree=" + outDegree +
+//                ", \n\tedgeMap=" + edgeMap.size() +
+//                ", \n\tlabel=" + label.getName() +
+//                ", \n\tname='" + name + '\'' +
+//                ", \n\tattributes=" + attributes +
+//                "\n}";
     }
 
     /**

@@ -144,7 +144,8 @@ public class EdgeLabel implements Comparable<EdgeLabel>{
      */
     @Override
     public String toString() {
-        return "{name:" + name + ", priority:" + priority + "}";
+//        return "{name:" + name + ", priority:" + priority + "}";
+        return name;
     }
 
     /**
