@@ -1,5 +1,8 @@
 package com.graph2nl;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+
 import java.util.*;
 
 /**
@@ -208,4 +211,39 @@ public class Digraph {
             }
         }
     }
+
+    /**
+     * This method package the graph to a json object
+     *
+     * @return a json object which contains this graph
+     */
+    public JSONObject getJson() {
+        updateOut();
+        JSONObject result = new JSONObject();
+
+        //outer loop for vertices which out degree greater than 0
+        for (Vertex currV : outVertices) {
+            String currVName = currV.getLabel().getName() + ":" + currV.getName();
+
+            JSONObject edgeObj = new JSONObject();
+            //loop for vertices' edges
+            for (EdgeLabel label : currV.getEdgeMap().keySet()) {
+                String currLName = label.getName();
+                JSONArray toVertexArray = new JSONArray();
+                //loop for the dist vertices
+                List<Edge> edgeList = currV.getEdgeMap().get(label);
+                Iterator<Edge> iterator = edgeList.iterator();
+                while (iterator.hasNext()) {
+                    Edge currE = iterator.next();
+                    Vertex distV = vertexMap.get(currE.getTo().getId());
+                    toVertexArray.add(distV.getLabel().getName() + ":" + distV.getName());
+                }
+                edgeObj.put(currLName, toVertexArray);
+            }
+            result.put(currVName, edgeObj);
+        }
+
+        return  result;
+    }
+
 }

@@ -188,4 +188,16 @@ public class Vertex implements Comparable<Vertex>{
             builder.append(" " + attributes);
         return builder.toString();
     }
+
+    /**
+     * get all attributes from this vertex
+     * @return a list of attributes
+     */
+    public List<String> getAttributes(){
+        List<String> result = new ArrayList<>();
+        for (String key: attributes.keySet()){
+            result.add(key + ":" + attributes.get(key));
+        }
+        return result;
+    }
 }

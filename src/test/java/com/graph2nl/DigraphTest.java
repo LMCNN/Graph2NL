@@ -53,5 +53,6 @@ public class DigraphTest {
 
 //        System.out.println(dg.toString());
         dg.describe('e');
+        System.out.println(dg.getJson());
     }
 }

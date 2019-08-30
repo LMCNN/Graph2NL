@@ -21,7 +21,8 @@ public class ProjectRunner {
                 "\t-e                  Describe the graph by English\n\n" +
                 "\t-z                  Describe the graph by Chinese\n\n" +
                 "\t-v <directory>      Use .e.v file as input file\n\n" +
-                "\t-g <fileName>       Use .gexf file as input file");
+                "\t-g <fileName>       Use .gexf file as input file" +
+                "\t-j                  Convert the graph to json") ;
     }
 
     public static void main(String[] args){
@@ -34,9 +35,10 @@ public class ProjectRunner {
         char language = 'e';
         String config = null;
         List<String> fileNames = new ArrayList<>();
+        boolean getJson = false;
 
         //parse options and their argument
-        Getopt g = new Getopt("Graph2NL", args, "c:v:g:zeh");
+        Getopt g = new Getopt("Graph2NL", args, "c:v:g:zehj");
         int c;
         String arg;
         while ((c = g.getopt()) != -1) {
@@ -70,6 +72,9 @@ public class ProjectRunner {
                         }
                     }
                     break;
+                case 'j':
+                    getJson = true;
+                    break;
                 case '?':
                     break; // getopt() already printed an error
                 default:
@@ -96,7 +101,13 @@ public class ProjectRunner {
             ReadFromFile.ReadFromCSV(fileNames.get(0), fileNames.get(1), dg);
         }
 
-        //describe the graph
-        dg.describe(language);
+        if (getJson) {
+            System.out.print(dg.getJson());
+        }
+        else {
+            //describe the graph
+            dg.describe(language);
+        }
+
     }
 }
