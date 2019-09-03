@@ -1,5 +1,6 @@
 package com.graph2nl;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
@@ -27,6 +28,7 @@ public class Edge implements Comparable<Edge>{
         this.from = from;
         this.to = to;
         this.label = label;
+        this.attributes = new HashMap<>();
     }
 
     /**

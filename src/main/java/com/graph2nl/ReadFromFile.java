@@ -257,14 +257,15 @@ public class ReadFromFile {
             }
 
             //Parse edge attributes and store them to a map
+            Map<Long, String> aEdgeMap = new HashMap<>();
             if (aEdgeList != null) {
-                Map<Long, String> aEdgeMap = new HashMap<>();
                 for (int i = 0; i < aEdgeList.getLength(); i++){
                     Node nNode = aEdgeList.item(i);
                     if (nNode.getNodeType() == Node.ELEMENT_NODE) {
                         Element eElement = (Element) nNode;
                         Long id = Long.valueOf( eElement.getAttribute("id"));
                         String title = eElement.getAttribute("title");
+//                        System.out.println(id + ": " + title);
                         aEdgeMap.put(id, title);
                     }
                 }
@@ -289,7 +290,20 @@ public class ReadFromFile {
                     Vertex to = dg.getVertexById(Long.valueOf(eElement.getAttribute("target")));
                     String label = eElement.getAttribute("label");
                     if (!eLabelMap.containsKey(label)) eLabelMap.put(label, new EdgeLabel(label));
-                    dg.addEdge(new Edge(id, from, to, dg.getEdgeLabelByName(label)));
+
+                    Edge tempEdge = new Edge(id, from, to, dg.getEdgeLabelByName(label));
+                    //Set attributes to current vertex
+                    NodeList attList = eElement.getElementsByTagName("attvalue");
+                    for (int j = 0; j < attList.getLength(); j++) {
+                        Node aNode = attList.item(j);
+                        if (aNode.getNodeType() == Node.ELEMENT_NODE){
+                            Element aElement = (Element) aNode;
+                            String attKey = aEdgeMap.get(Long.valueOf(aElement.getAttribute("for")));
+                            String attValue = aElement.getAttribute("value");
+                            tempEdge.putAttribute(attKey, attValue);
+                        }
+                    }
+                    dg.addEdge(tempEdge);
                 }
             }
         }

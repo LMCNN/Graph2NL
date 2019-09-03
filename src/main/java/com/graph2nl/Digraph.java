@@ -224,7 +224,6 @@ public class Digraph {
 
         //outer loop for vertices which out degree greater than 0
         for (Vertex currV : outVertices){
-
             //loop for vertices' edges
             JSONObject currLabel = new JSONObject();
             for (EdgeLabel label : currV.getEdgeMap().keySet()){
@@ -234,11 +233,17 @@ public class Digraph {
                 JSONArray to = new JSONArray();
                 while (iterator.hasNext()){
                     JSONObject toV = new JSONObject();
-                    Vertex distV = vertexMap.get(iterator.next().getTo().getId());
+                    Edge currEdge = iterator.next();
+                    Vertex distV = vertexMap.get(currEdge.getTo().getId());
                     toV.put("name", distV.getName());
                     for (String attrKey : distV.getAttributes().keySet()) {
                         toV.put(attrKey, distV.getAttributes().get(attrKey));
                     }
+                    JSONObject edgeAttr = new JSONObject();
+                    for (String attrKey : currEdge.getAttributes().keySet()){
+                        edgeAttr.put(attrKey, currEdge.getAttributes().get(attrKey));
+                    }
+                    toV.put("edgeAttr", edgeAttr);
                     to.add(toV);
                 }
                 currLabel.put(label, to);

@@ -22,6 +22,7 @@
    <attribute id="7" title="visit_dura" type="string"/>
    <attribute id="8" title="visit_cnt" type="string"/>
   </attributes>
+
   <nodes count="6">
    <node id="0" label="User">
     <attvalues>
@@ -60,6 +61,7 @@
     </attvalues>
    </node>
   </nodes>
+
   <edges count="6">
    <edge id="0" source="0" target="100" type="directed" label="CALL" weight="1.0">
     <attvalues>
