@@ -1,5 +1,6 @@
 package com.graph2nl;
 
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -13,6 +14,7 @@ public class Edge implements Comparable<Edge>{
     private Vertex from;
     private Vertex to;
     private EdgeLabel label;
+    private Map<String, String> attributes;
 
     /**
      * Constructor of the Edge class
@@ -25,6 +27,23 @@ public class Edge implements Comparable<Edge>{
         this.from = from;
         this.to = to;
         this.label = label;
+    }
+
+    /**
+     * set a attribute to this edge
+     * @param key the attribute name
+     * @param value the attribute value
+     */
+    public void putAttribute(String key, String value) {
+        attributes.put(key, value);
+    }
+
+    /**
+     * get all attributes from this vertex
+     * @return a map of attributes
+     */
+    public Map<String, String> getAttributes() {
+        return this.attributes;
     }
 
     /**

@@ -219,19 +219,27 @@ public class Digraph {
      */
     public JSONObject getJson() {
         updateOut();
+
         JSONObject result = new JSONObject();
 
         //outer loop for vertices which out degree greater than 0
         for (Vertex currV : outVertices){
+
             //loop for vertices' edges
             JSONObject currLabel = new JSONObject();
             for (EdgeLabel label : currV.getEdgeMap().keySet()){
                 List<Edge> edgeList = currV.getEdgeMap().get(label);
                 Iterator<Edge> iterator = edgeList.iterator();
+
                 JSONArray to = new JSONArray();
                 while (iterator.hasNext()){
+                    JSONObject toV = new JSONObject();
                     Vertex distV = vertexMap.get(iterator.next().getTo().getId());
-                    to.add(distV);
+                    toV.put("name", distV.getName());
+                    for (String attrKey : distV.getAttributes().keySet()) {
+                        toV.put(attrKey, distV.getAttributes().get(attrKey));
+                    }
+                    to.add(toV);
                 }
                 currLabel.put(label, to);
             }

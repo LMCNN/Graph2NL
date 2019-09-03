@@ -192,13 +192,9 @@ public class Vertex implements Comparable<Vertex>{
 
     /**
      * get all attributes from this vertex
-     * @return a list of attributes
+     * @return a map of attributes
      */
-    public List<String> getAttributes(){
-        List<String> result = new ArrayList<>();
-        for (String key: attributes.keySet()){
-            result.add(key + ":" + attributes.get(key));
-        }
-        return result;
+    public Map<String, String> getAttributes(){
+        return this.attributes;
     }
 }
