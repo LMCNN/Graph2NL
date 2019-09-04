@@ -102,11 +102,11 @@ public class ProjectRunner {
         }
 
         if (getJson) {
-            System.out.print(dg.getJson());
+//            System.out.print(dg.getJson());
         }
         else {
             //describe the graph
-            dg.describe(language);
+//            dg.describe(language);
         }
 
     }

@@ -29,7 +29,7 @@ public class ReadFromFileTest {
         ReadFromFile.parseGEXF("src/data/graph.gexf", dg);
 
 //        dg.describe('e');
-        System.out.println(dg.getJson());
+//        System.out.println(dg.getJson());
     }
 
 //    @Test

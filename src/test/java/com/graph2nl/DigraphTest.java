@@ -11,10 +11,8 @@ public class DigraphTest {
         dg = new Digraph();
         Map<String, VertexLabel> vertexLabels = new HashMap<>();
         vertexLabels.put("User", new VertexLabel("User", 1L));
-        vertexLabels.put("Number", new VertexLabel("Number", 0L));
-        vertexLabels.put("Character", new VertexLabel("Character"));
-        vertexLabels.put("Website", new VertexLabel("Website"));
-        vertexLabels.put("APP", new VertexLabel("APP"));
+        vertexLabels.put("Phone", new VertexLabel("Phone", 0L));
+        vertexLabels.put("Web", new VertexLabel("Web"));
         dg.setVertexLabelMap(vertexLabels);
 
         Map<String, EdgeLabel> edgeLabels = new HashMap<>();

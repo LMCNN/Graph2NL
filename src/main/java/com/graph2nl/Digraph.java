@@ -13,7 +13,7 @@ import java.util.*;
  */
 public class Digraph {
     private Map<Long, Vertex> vertexMap;
-    private List<Vertex> outVertices;
+    private Map<VertexLabel, List<Vertex>> outVertices;
     private Map<String, EdgeLabel> edgeLabelMap;
     private Map<String, VertexLabel> vertexLabelMap;
 
@@ -21,8 +21,8 @@ public class Digraph {
      * The constructor of this class
      */
     public Digraph() {
-        this.vertexMap = new HashMap<Long, Vertex>();
-        this.outVertices = new ArrayList<Vertex>();
+        this.vertexMap = new HashMap();
+        this.outVertices = new HashMap();
     }
 
     /**
@@ -55,7 +55,7 @@ public class Digraph {
      * Get all vertices with our degree greater than 0
      * @return a list of vertex
      */
-    public List<Vertex> getOutVertices() {
+    public Map<VertexLabel, List<Vertex>> getOutVertices() {
         updateOut();
         return outVertices;
     }
@@ -108,11 +108,22 @@ public class Digraph {
      */
     private void updateOut(){
         Collection<Vertex> vertices = vertexMap.values();
+        Collection<VertexLabel> labels;
+
         for (Vertex curr : vertices) {
-            if (curr.getOutDegree() > 0 && !outVertices.contains(curr))
-                outVertices.add(curr);
+            labels = outVertices.keySet();
+            if (curr.getOutDegree() > 0) {
+                VertexLabel currLabel = curr.getLabel();
+                if (!labels.contains(currLabel)){
+                    List<Vertex> tempList = new ArrayList();
+                    tempList.add(curr);
+                    outVertices.put(currLabel, tempList);
+                }
+                else {
+                    outVertices.get(currLabel).add(curr);
+                }
+            }
         }
-        Collections.sort(outVertices);
     }
 
     /**
@@ -145,11 +156,17 @@ public class Digraph {
      * helper method for print the out vertices
      * @return A out vertices string
      */
-    private String printOutVertices(){
+    private String printOutVertices() {
+        updateOut();
         StringBuilder builder = new StringBuilder("outVertices = {");
-        for (Vertex curr : outVertices){
-            builder.append(curr.getId());
-            builder.append(", ");
+        for (VertexLabel currLabel : outVertices.keySet()) {
+            builder.append(currLabel.getName());
+            builder.append(": [");
+            List<Vertex> tempList = outVertices.get(currLabel);
+            for (Vertex currVertex : tempList) {
+                builder.append(currVertex.getName() + ", ");
+            }
+            builder.append("], ");
         }
         builder.append("}");
         return builder.toString();
@@ -182,74 +199,118 @@ public class Digraph {
     /**
      * Describe this graph using english
      */
-    public void describe(Character language) {
-        updateOut();
-        Integer numOut = outVertices.size();
-        if (language == 'z') printChinese(numOut);
-        if (language == 'e') printEnglish(numOut);
-
-        //outer loop for vertices which out degree greater than 0
-        for (Vertex currV : outVertices){
-            System.out.println("--------------------------------------------------------");
-
-            //loop for vertices' edges
-            boolean isFirst = true;
-            for (EdgeLabel label : currV.getEdgeMap().keySet()){
-                System.out.print(currV.getLabel().getName() + ": " + currV.print(isFirst) + label.print());
-                isFirst = false;
-
-                List<Edge> edgeList = currV.getEdgeMap().get(label);
-                if (edgeList.size() > 1) System.out.print("[");
-                Iterator<Edge> iterator = edgeList.iterator();
-                while (iterator.hasNext()){
-                    Vertex distV = vertexMap.get(iterator.next().getTo().getId());
-                    printVertices(distV, edgeList.size());
-                    if (iterator.hasNext()) System.out.print("; ");
-                }
-                if (edgeList.size() > 1) System.out.println("]");
-                else System.out.println();
-            }
-        }
-    }
-
-    /**
-     * This method package the graph to a json object
-     *
-     * @return a json object which contains this graph
-     */
+//    public void describe(Character language) {
+//        updateOut();
+//        Integer numOut = outVertices.size();
+//        if (language == 'z') printChinese(numOut);
+//        if (language == 'e') printEnglish(numOut);
+//
+//        //outer loop for vertices which out degree greater than 0
+//        for (Vertex currV : outVertices){
+//            System.out.println("--------------------------------------------------------");
+//
+//            //loop for vertices' edges
+//            boolean isFirst = true;
+//            for (EdgeLabel label : currV.getEdgeMap().keySet()){
+//                System.out.print(currV.getLabel().getName() + ": " + currV.print(isFirst) + label.print());
+//                isFirst = false;
+//
+//                List<Edge> edgeList = currV.getEdgeMap().get(label);
+//                if (edgeList.size() > 1) System.out.print("[");
+//                Iterator<Edge> iterator = edgeList.iterator();
+//                while (iterator.hasNext()){
+//                    Vertex distV = vertexMap.get(iterator.next().getTo().getId());
+//                    printVertices(distV, edgeList.size());
+//                    if (iterator.hasNext()) System.out.print("; ");
+//                }
+//                if (edgeList.size() > 1) System.out.println("]");
+//                else System.out.println();
+//            }
+//        }
+//    }
+//
+//    /**
+//     * This method package the graph to a json object
+//     *
+//     * @return a json object which contains this graph
+//     */
     public JSONObject getJson() {
         updateOut();
 
         JSONObject result = new JSONObject();
 
-        //outer loop for vertices which out degree greater than 0
-        for (Vertex currV : outVertices){
-            //loop for vertices' edges
-            JSONObject currLabel = new JSONObject();
-            for (EdgeLabel label : currV.getEdgeMap().keySet()){
-                List<Edge> edgeList = currV.getEdgeMap().get(label);
-                Iterator<Edge> iterator = edgeList.iterator();
+        for (VertexLabel fromLabel : outVertices.keySet()) {
+            List<Vertex> fromVertices = outVertices.get(fromLabel);
+            JSONArray fromArray = new JSONArray();
+            JSONObject fromV = new JSONObject();
+            JSONArray actions = new JSONArray();
+            for (Vertex fromVertex : fromVertices) {
+                JSONObject edgeLabel = new JSONObject();
+                for (EdgeLabel label : fromVertex.getEdgeMap().keySet()) {
+                    List<Edge> edgeList = fromVertex.getEdgeMap().get(label);
+                    Iterator<Edge> iterator = edgeList.iterator();
 
-                JSONArray to = new JSONArray();
-                while (iterator.hasNext()){
-                    JSONObject toV = new JSONObject();
-                    Edge currEdge = iterator.next();
-                    Vertex distV = vertexMap.get(currEdge.getTo().getId());
-                    toV.put("name", distV.getName());
-                    for (String attrKey : distV.getAttributes().keySet()) {
-                        toV.put(attrKey, distV.getAttributes().get(attrKey));
+                    JSONArray toVertices = new JSONArray();
+                    while (iterator.hasNext()) {
+                        Edge currEdge = iterator.next();
+                        Vertex distV = vertexMap.get(currEdge.getTo().getId());
+
+                        JSONObject toVertex = new JSONObject();
+                        JSONObject edgeAttr = new JSONObject();
+                        for (String edgeAttrKey : currEdge.getAttributes().keySet()){
+                            edgeAttr.put(edgeAttrKey, currEdge.getAttributes().get(edgeAttrKey));
+                        }
+                        toVertex.put("edgeAttr", edgeAttr);
+                        JSONObject vertexAttr = new JSONObject();
+                        for (String vertexAttrKey : distV.getAttributes().keySet()) {
+                            vertexAttr.put(vertexAttrKey, distV.getAttributes().get(vertexAttrKey));
+                        }
+                        toVertex.put("vertexAttr", vertexAttr);
+                        toVertex.put("name", distV.getName());
+                        toVertices.add(toVertices);
                     }
-                    JSONObject edgeAttr = new JSONObject();
-                    for (String attrKey : currEdge.getAttributes().keySet()){
-                        edgeAttr.put(attrKey, currEdge.getAttributes().get(attrKey));
-                    }
-                    toV.put("edgeAttr", edgeAttr);
-                    to.add(toV);
+                    edgeLabel.put(label.getName(), toVertices);
+                    actions.add(edgeLabel);
                 }
-                currLabel.put(label, to);
+                fromV.put("actions", actions);
+                JSONObject vertexAttr = new JSONObject();
+                for (String vertexAttrKey : fromVertex.getAttributes().keySet()) {
+                    vertexAttr.put(vertexAttrKey, fromVertex.getAttributes().get(vertexAttrKey));
+                }
+                fromV.put("attributes", vertexAttr);
+                fromArray.add(fromV);
             }
-            result.put(currV, currLabel);
+            result.put(fromLabel.getName(), fromArray);
         }
+
+        //outer loop for vertices which out degree greater than 0
+//        for (Vertex currV : outVertices){
+//            //loop for vertices' edges
+//            JSONObject currLabel = new JSONObject();
+//            for (EdgeLabel label : currV.getEdgeMap().keySet()){
+//                List<Edge> edgeList = currV.getEdgeMap().get(label);
+//                Iterator<Edge> iterator = edgeList.iterator();
+//
+//                JSONArray to = new JSONArray();
+//                while (iterator.hasNext()){
+//                    JSONObject toV = new JSONObject();
+//                    Edge currEdge = iterator.next();
+//                    Vertex distV = vertexMap.get(currEdge.getTo().getId());
+//                    toV.put("name", distV.getName());
+//                    for (String attrKey : distV.getAttributes().keySet()) {
+//                        toV.put(attrKey, distV.getAttributes().get(attrKey));
+//                    }
+//                    JSONObject edgeAttr = new JSONObject();
+//                    for (String attrKey : currEdge.getAttributes().keySet()){
+//                        edgeAttr.put(attrKey, currEdge.getAttributes().get(attrKey));
+//                    }
+//                    toV.put("edgeAttr", edgeAttr);
+//                    to.add(toV);
+//                }
+//                currLabel.put(label, to);
+//            }
+//            result.put(currV, currLabel);
+//        }
 
         return  result;
     }

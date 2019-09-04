@@ -62,7 +62,9 @@ public class VertexLabel implements Comparable<VertexLabel>{
      */
     @Override
     public int compareTo(VertexLabel o) {
-        return this.priority.compareTo(o.getPriority());
+        if (priority.compareTo(o.getPriority()) != 0)
+            return priority.compareTo(o.getPriority());
+        else return name.compareTo(o.getName());
     }
 
     /**
