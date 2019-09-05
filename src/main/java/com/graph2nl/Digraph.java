@@ -106,7 +106,7 @@ public class Digraph {
     /**
      * Update the out vertex list
      */
-    private void updateOut(){
+    private void updateOut() {
         Collection<Vertex> vertices = vertexMap.values();
         Collection<VertexLabel> labels;
 
@@ -114,7 +114,7 @@ public class Digraph {
             labels = outVertices.keySet();
             if (curr.getOutDegree() > 0) {
                 VertexLabel currLabel = curr.getLabel();
-                if (!labels.contains(currLabel)){
+                if (!labels.contains(currLabel)) {
                     List<Vertex> tempList = new ArrayList();
                     tempList.add(curr);
                     outVertices.put(currLabel, tempList);
@@ -131,7 +131,7 @@ public class Digraph {
      * @param e the edge need to be added
      * @return this edge
      */
-    public Edge addEdge(Edge e){
+    public Edge addEdge(Edge e) {
         Vertex fromV = e.getFrom();
         Vertex currV = getVertexById(fromV.getId());
         currV.addEdge(e);
