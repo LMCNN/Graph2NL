@@ -158,67 +158,35 @@ public class Digraph {
     }
 
     /**
-     * helper method for Describe
+     * Describe this graph
      */
-    private void printEnglish(Integer size){
-        System.out.print("\nWe are going to describe " + size);
-        if (size == 1){
-            System.out.println(" vertex:");
-        }
-        else {
-            System.out.println(" vertices:");
-        }
+    public void describe() {
+        final JSONObject graph = this.getJson();
+        graph.keySet().forEach(keyFromV-> {
+            JSONObject fromV = (JSONObject) graph.get(keyFromV);
+            System.out.println(keyFromV + " " + fromV.get("attributes"));
+
+            fromV.keySet().forEach(keyEdge-> {
+                Object edge = fromV.get(keyEdge);
+                String type = edge.getClass().getName();
+                if (type.equals("org.json.simple.JSONArray")) {
+                    System.out.println("\n\t" + keyEdge);
+                    for (Object toV : (JSONArray) edge) {
+                        System.out.println("\t\tname: " + ((JSONObject) toV).get("name"));
+                        System.out.println("\t\tedgeAttr:" + ((JSONObject) toV).get("edgeAttr"));
+                        System.out.println("\t\tvertexAttr:" + ((JSONObject) toV).get("attributes"));
+                        System.out.println();
+                    }
+                }
+            });
+        });
     }
 
     /**
-     * helper method for Describe
+     * This method package the graph to a json object
+     *
+     * @return a json object which contains this graph
      */
-    private void printChinese(Integer size){
-        System.out.println("\n将要描述" + size + "个节点：");
-    }
-
-    private void printVertices(Vertex vertex, Integer size){
-        if (size != 1) System.out.print(vertex.getLabel().print() + ": " + vertex.getName());
-        else System.out.print(vertex.getName());
-    }
-    /**
-     * Describe this graph using english
-     */
-//    public void describe(Character language) {
-//        updateOut();
-//        Integer numOut = outVertices.size();
-//        if (language == 'z') printChinese(numOut);
-//        if (language == 'e') printEnglish(numOut);
-//
-//        //outer loop for vertices which out degree greater than 0
-//        for (Vertex currV : outVertices){
-//            System.out.println("--------------------------------------------------------");
-//
-//            //loop for vertices' edges
-//            boolean isFirst = true;
-//            for (EdgeLabel label : currV.getEdgeMap().keySet()){
-//                System.out.print(currV.getLabel().getName() + ": " + currV.print(isFirst) + label.print());
-//                isFirst = false;
-//
-//                List<Edge> edgeList = currV.getEdgeMap().get(label);
-//                if (edgeList.size() > 1) System.out.print("[");
-//                Iterator<Edge> iterator = edgeList.iterator();
-//                while (iterator.hasNext()){
-//                    Vertex distV = vertexMap.get(iterator.next().getTo().getId());
-//                    printVertices(distV, edgeList.size());
-//                    if (iterator.hasNext()) System.out.print("; ");
-//                }
-//                if (edgeList.size() > 1) System.out.println("]");
-//                else System.out.println();
-//            }
-//        }
-//    }
-//
-//    /**
-//     * This method package the graph to a json object
-//     *
-//     * @return a json object which contains this graph
-//     */
     public JSONObject getJson() {
         updateOut();
 
@@ -226,8 +194,14 @@ public class Digraph {
 
         //outer loop for vertices which out degree greater than 0
         for (Vertex currV : outVertices){
-            //loop for vertices' edges
             JSONObject currLabel = new JSONObject();
+            JSONObject fromAttr = new JSONObject();
+            for (String fromAttrKey : currV.getAttributes().keySet()) {
+                fromAttr.put(fromAttrKey, currV.getAttributes().get(fromAttrKey));
+            }
+            currLabel.put("attributes", fromAttr);
+
+            //loop for vertices' edges
             for (EdgeLabel label : currV.getEdgeMap().keySet()){
                 List<Edge> edgeList = currV.getEdgeMap().get(label);
                 Iterator<Edge> iterator = edgeList.iterator();
@@ -235,12 +209,14 @@ public class Digraph {
                 JSONArray to = new JSONArray();
                 while (iterator.hasNext()){
                     JSONObject toV = new JSONObject();
+                    JSONObject toAttr = new JSONObject();
                     Edge currEdge = iterator.next();
                     Vertex distV = vertexMap.get(currEdge.getTo().getId());
                     toV.put("name", distV.getName());
                     for (String attrKey : distV.getAttributes().keySet()) {
-                        toV.put(attrKey, distV.getAttributes().get(attrKey));
+                        toAttr.put(attrKey, distV.getAttributes().get(attrKey));
                     }
+                    toV.put("attributes", toAttr);
                     JSONObject edgeAttr = new JSONObject();
                     for (String attrKey : currEdge.getAttributes().keySet()){
                         edgeAttr.put(attrKey, currEdge.getAttributes().get(attrKey));
@@ -252,8 +228,6 @@ public class Digraph {
             }
             result.put(currV, currLabel);
         }
-
         return  result;
     }
-
 }

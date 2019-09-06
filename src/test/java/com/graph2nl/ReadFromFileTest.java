@@ -11,8 +11,7 @@ public class ReadFromFileTest {
 //        Digraph dg = new Digraph();
 //        ReadFromFile.loadConfig("src/data/config.json", dg);
 //        ReadFromFile.ReadFromCSV("src/data/data_1/test.v", "src/data/data_1/test.e", dg);
-////        System.out.println(dg.toString());
-//        dg.describe('e');
+//        dg.describe();
 //    }
 //
 //    @Test
@@ -25,10 +24,9 @@ public class ReadFromFileTest {
     @Test
     public void testParseGEXF() throws IOException, ParseException {
         Digraph dg = new Digraph();
-//        ReadFromFile.loadConfig("src/data/config.json", dg);
         ReadFromFile.parseGEXF("src/data/graph.gexf", dg);
 
-//        dg.describe('e');
+        dg.describe();
 //        System.out.println(dg.getJson());
     }
 

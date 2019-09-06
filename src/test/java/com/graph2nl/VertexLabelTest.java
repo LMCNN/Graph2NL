@@ -13,27 +13,25 @@ public class VertexLabelTest {
 
     @Test
     public void testAll(){
-        Assert.assertTrue(vertexLabel.getPriority() == Integer.MAX_VALUE);
+        Assert.assertTrue(vertexLabel.getPriority() == Long.MAX_VALUE);
         Assert.assertEquals(vertexLabel.getName(), "User");
 
-        vertexLabel.setPriority(new Long(0));
+        vertexLabel.setPriority(0L);
         Assert.assertTrue(vertexLabel.getPriority() == 0);
 
-        Assert.assertEquals(vertexLabel.toString(), " User ");
+        Assert.assertEquals(vertexLabel.toString(), "{name:User, priority:0}");
     }
 
     @Test
     public void testCompareTo(){
-        VertexLabel temp1 = new VertexLabel("User");
-        temp1.setPriority(new Long(0));
+        VertexLabel temp1 = new VertexLabel("{name:User, priority:0}");
+        temp1.setPriority(0L);
         VertexLabel temp2 = new VertexLabel("Number");
-        temp2.setPriority(new Long(0));
-        Assert.assertTrue(temp1.compareTo(temp2) == 0);
 
-        temp2.setPriority(new Long(1));
-        Assert.assertTrue(temp1.compareTo(temp2) == -1);
+        temp2.setPriority(1L);
+        Assert.assertTrue(temp1.compareTo(temp2) < 0);
 
-        temp1.setPriority(new Long(2));
-        Assert.assertTrue(temp1.compareTo(temp2) == 1);
+        temp1.setPriority(2L);
+        Assert.assertTrue(temp1.compareTo(temp2) > 0);
     }
 }

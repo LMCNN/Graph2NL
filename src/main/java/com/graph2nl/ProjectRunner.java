@@ -15,13 +15,11 @@ import java.util.*;
  */
 public class ProjectRunner {
     public static void usage(){
-        System.out.println("Usage: java -jar Graph2NL.jar [-h] [-e | -z] [-v <directory> | -g <fileName>]  [-c <fileName>]\n\n" +
+        System.out.println("Usage: java -jar Graph2NL.jar [-h] [-v <directory> | -g <fileName>] [-j]\n\n" +
                 "\t-h                  Print this help\n\n" +
-                "\t-c <fileName>       Use .json config file\n\n" +
-                "\t-e                  Describe the graph by English\n\n" +
-                "\t-z                  Describe the graph by Chinese\n\n" +
+//                "\t-c <fileName>       Use .json config file\n\n" +
                 "\t-v <directory>      Use .e.v file as input file\n\n" +
-                "\t-g <fileName>       Use .gexf file as input file" +
+                "\t-g <fileName>       Use .gexf file as input file\n\n" +
                 "\t-j                  Convert the graph to json") ;
     }
 
@@ -32,13 +30,12 @@ public class ProjectRunner {
         }
 
         Digraph dg = new Digraph();
-        char language = 'e';
         String config = null;
         List<String> fileNames = new ArrayList<>();
         boolean getJson = false;
 
         //parse options and their argument
-        Getopt g = new Getopt("Graph2NL", args, "c:v:g:zehj");
+        Getopt g = new Getopt("Graph2NL", args, "c:v:g:hj");
         int c;
         String arg;
         while ((c = g.getopt()) != -1) {
@@ -46,10 +43,6 @@ public class ProjectRunner {
                 case 'h':
                     usage();
                     System.exit(0);
-                    break;
-                case 'e':
-                case 'z':
-                    language = (char) c;
                     break;
                 case 'c':
                     config = g.getOptarg();
@@ -86,9 +79,7 @@ public class ProjectRunner {
         if (config != null){
             try {
                 ReadFromFile.loadConfig(config, dg);
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (ParseException e) {
+            } catch (IOException | ParseException e) {
                 e.printStackTrace();
             }
         }
@@ -102,11 +93,11 @@ public class ProjectRunner {
         }
 
         if (getJson) {
-//            System.out.print(dg.getJson());
+            System.out.print(dg.getJson());
         }
         else {
             //describe the graph
-//            dg.describe(language);
+            dg.describe();
         }
 
     }

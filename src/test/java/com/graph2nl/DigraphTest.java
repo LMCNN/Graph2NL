@@ -82,7 +82,7 @@ public class DigraphTest {
     @Test
     public void testAll(){
 //        System.out.println(dg.toString());
-//        dg.describe('e');
-        System.out.println(dg.getJson());
+        dg.describe();
+//        System.out.println(dg.getJson());
     }
 }

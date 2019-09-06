@@ -2,11 +2,7 @@
 
 # Graph2NL
 
-一个小程序可以将图用中文或者英文描述出来。
-
-使用者可以通过自己配置的JSON或GEXF文件来控制节点和边的描述顺序。
-
-![](diagrams/uml.png)
+一个小程序可以描述图，方便用户理解。
 
 ## 运行方法
 1. 首先需要下载[Graph2NL_jar](https://github.com/LMCNN/Graph2NL/tree/master/classes/artifacts/Graph2NL_jar)这个文件夹
@@ -15,27 +11,23 @@
 
 3. 输入以下命令：
 
-   - Windows:  `java -Dfile.encoding=utf-8 -jar Graph2NL.jar [-h] [-e | -z]`
+   - Windows:  `java -Dfile.encoding=utf-8 -jar Graph2NL.jar [-h]  `
 
-     ​					` [-v <path> | -g <fileName>]  [-c <fileName>]`
+     ​				`[-v <path> | -g <fileName>]  [-j]` 
 
-   - Mac:      `java -jar Graph2NL.jar [-h] [-e | -z] [-v <path> |`
+   - Mac:      `java -jar Graph2NL.jar [-h]  [-v <path> | -g <fileName>]  [-c <fileName>]`
 
-     ​				` -g <fileName>]  [-c <fileName>]`
+     ​		  	`[-j]`
 
 ### 选择项
 
         -h                  打印当前帮助页
     
-        -c <fileName>       使用JSON配置文件
-    
-        -e                  用英文描述图
-    
-        -z                  用中文描述图
-    
         -v <directory>      用.e .v文件作为图输入文件
     
         -g <fileName>       用.gexf文件作为图输入文件
+        
+        -j					将图转换为JSON文件
 
 
 ## 输入文件
@@ -84,8 +76,6 @@
 此文件主要分为四个部分：头文件分，属性部分，节点部分和边部分。
 
 头文件部分不做分析主要需要配置属性，节点和边的部分。
-
-用户可以在属性部分配置各个节点和边在描述的时候的优先级，以及边的前缀和后缀。
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -138,48 +128,5 @@
 </gexf>
 ```
 
-## JSON配置文件
 
-此文件主要分为两个部分：节点标签部分和边标签部分。
-
-#### 标签内容：
-
-##### 节点标签属性：
-
-- 标签的名称
-- 描述节点时的优先级
-
-##### 边标签属性：
-
-- 标签的名称
-- 描述边时的优先级
-- 描述边时添加的前缀
-- 描述边时添加的后缀
-
-#### JSON配置文件样例：
-
-```json
-{
-  "VertexLabel": [
-    {
-      "name":"User",
-      "priority":2
-    },
-    {
-      "name":"Number",
-      "priority":1
-    }
-    //添加更多节点标签
-  ],
-  "EdgeLabel": [
-    {
-      "name":"message",
-      "priority":1,
-      "prefix":"send",
-      "postfix":"to"
-    }
-    //添加更多边标签
-  ]
-}
-```
 
