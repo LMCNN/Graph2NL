@@ -27,7 +27,7 @@
     
         -g <fileName>       用.gexf文件作为图输入文件
         
-        -j					将图转换为JSON文件
+        -j                  将图转换为JSON文件
 
 
 ## 输入文件
