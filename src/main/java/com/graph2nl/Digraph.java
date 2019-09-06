@@ -170,11 +170,24 @@ public class Digraph {
                 Object edge = fromV.get(keyEdge);
                 String type = edge.getClass().getName();
                 if (type.equals("org.json.simple.JSONArray")) {
-                    System.out.println("\n\t" + keyEdge);
+                    System.out.println("\t" + keyEdge);
                     for (Object toV : (JSONArray) edge) {
-                        System.out.println("\t\tname: " + ((JSONObject) toV).get("name"));
-                        System.out.println("\t\tedgeAttr:" + ((JSONObject) toV).get("edgeAttr"));
-                        System.out.println("\t\tvertexAttr:" + ((JSONObject) toV).get("attributes"));
+                        String name = "";
+                        String vertexAttr = "";
+                        String edgeAttr = "";
+
+                        for (Object keyToV :  ((JSONObject) toV).keySet()) {
+                            if (keyToV.equals("edgeAttr")) {
+                                edgeAttr = "\t\t" + ((JSONObject) toV).get("edgeAttr").toString();
+                            }
+                            else if (keyToV.equals("attributes")) {
+                                vertexAttr = ((JSONObject) toV).get("attributes").toString();
+                            }
+                            else {
+                                name = "\t\t" + keyToV + ":" + ((JSONObject) toV).get(keyToV).toString();
+                            }
+                        }
+                        System.out.println(name + " " + vertexAttr + "\n" +edgeAttr);
                         System.out.println();
                     }
                 }
@@ -212,7 +225,7 @@ public class Digraph {
                     JSONObject toAttr = new JSONObject();
                     Edge currEdge = iterator.next();
                     Vertex distV = vertexMap.get(currEdge.getTo().getId());
-                    toV.put("name", distV.getName());
+                    toV.put(distV.getLabel().getName(), distV.getName());
                     for (String attrKey : distV.getAttributes().keySet()) {
                         toAttr.put(attrKey, distV.getAttributes().get(attrKey));
                     }
