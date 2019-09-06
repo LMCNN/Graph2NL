@@ -150,14 +150,15 @@ public class Vertex implements Comparable<Vertex>{
      */
     @Override
     public String toString() {
-        return "Vertex{" +
-                "\n\tid=" + id +
-                ",\n\toutDegree=" + outDegree +
-                ", \n\tedgeMap=" + edgeMap.size() +
-                ", \n\tlabel=" + label.getName() +
-                ", \n\tname='" + name + '\'' +
-                ", \n\tattributes=" + attributes +
-                "\n}";
+        return label.getName() + ":" + name;
+//        return "Vertex{" +
+//                "\n\tid=" + id +
+//                ",\n\toutDegree=" + outDegree +
+//                ", \n\tedgeMap=" + edgeMap.size() +
+//                ", \n\tlabel=" + label.getName() +
+//                ", \n\tname='" + name + '\'' +
+//                ", \n\tattributes=" + attributes +
+//                "\n}";
     }
 
     /**
@@ -182,10 +183,18 @@ public class Vertex implements Comparable<Vertex>{
      * print this vertex name and it's attributes
      * @return vertex name and its attributes
      */
-    public String print(){
+    public String print(boolean printAttr){
         StringBuilder builder = new StringBuilder(name);
-        if (attributes.size() > 0)
+        if (printAttr && attributes.size() > 0)
             builder.append(" " + attributes);
         return builder.toString();
+    }
+
+    /**
+     * get all attributes from this vertex
+     * @return a map of attributes
+     */
+    public Map<String, String> getAttributes(){
+        return this.attributes;
     }
 }

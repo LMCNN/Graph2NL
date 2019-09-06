@@ -43,15 +43,16 @@ public class VertexTest {
         Assert.assertTrue(testV.getOutDegree() == 4);
         testV.putAttribute("gender", "male");
         testV.putAttribute("age", "19");
-        String result = "Vertex{\n" +
-                "\tid=1,\n" +
-                "\toutDegree=4, \n" +
-                "\tedgeMap=3, \n" +
-                "\tlabel=User, \n" +
-                "\tname='Mingchi', \n" +
-                "\tattributes={gender=male, age=19}\n" +
-                "}";
+//        String result = "Vertex{\n" +
+//                "\tid=1,\n" +
+//                "\toutDegree=4, \n" +
+//                "\tedgeMap=3, \n" +
+//                "\tlabel=User, \n" +
+//                "\tname='Mingchi', \n" +
+//                "\tattributes={gender=male, age=19}\n" +
+//                "}";
+        String result = "User:Mingchi";
         Assert.assertEquals(testV.toString(), result);
-        Assert.assertEquals(testV.print(), "Mingchi {gender=male, age=19}");
+        Assert.assertEquals(testV.print(false), "Mingchi");
     }
 }

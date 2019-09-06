@@ -80,19 +80,19 @@ public class ReadFromFile {
             String temp = null;
             while ((temp = reader.readLine()) != null) {
                 String[] line = temp.split(",");
-                for (int i = 0; i < line.length; i++){
-                    System.out.print(line[i] + " ");
-                }
+//                for (int i = 0; i < line.length; i++){
+//                    System.out.print(line[i] + " ");
+//                }
                 if (!vLabelMap.containsKey(line[1])) vLabelMap.put(line[1], new VertexLabel(line[1]));
                 dg.addVertexToMap(new Vertex(Long.valueOf(line[0]), dg.getVertexLabelByName(line[1]), line[2]));
-                System.out.println();
+//                System.out.println();
             }
             reader.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        System.out.println("\n-------------------------------------------\n");
+//        System.out.println("\n-------------------------------------------\n");
 
         File eFile = new File(eFileName);
         reader = null;
@@ -109,15 +109,15 @@ public class ReadFromFile {
             String temp = null;
             while ((temp = reader.readLine()) != null) {
                 String[] line = temp.split(",");
-                for (int i = 0; i < line.length; i++){
-                    System.out.print(line[i] + " ");
-                }
+//                for (int i = 0; i < line.length; i++){
+//                    System.out.print(line[i] + " ");
+//                }
                 if (!eLabelMap.containsKey(line[3])) eLabelMap.put(line[3], new EdgeLabel(line[3]));
                 dg.addEdge(new Edge(Long.valueOf(line[0]),
                         dg.getVertexById(Long.valueOf(line[1])),
                         dg.getVertexById(Long.valueOf(line[2])),
                         dg.getEdgeLabelByName(line[3])));
-                System.out.println();
+//                System.out.println();
             }
             reader.close();
         } catch (IOException e) {
@@ -139,7 +139,8 @@ public class ReadFromFile {
             //Parse label configuration and attributes
             NodeList vLabelList = null;
             NodeList eLabelList = null;
-            NodeList aList = null;
+            NodeList aNodeList = null;
+            NodeList aEdgeList = null;
             NodeList acList = doc.getElementsByTagName("attributes");
             for (int i = 0; i < acList.getLength(); i++){
                 Node acNode = acList.item(i);
@@ -153,7 +154,10 @@ public class ReadFromFile {
                         eLabelList = acElement.getElementsByTagName("attribute");
                     }
                     if (c.equals("node")){
-                        aList = acElement.getElementsByTagName("attribute");
+                        aNodeList = acElement.getElementsByTagName("attribute");
+                    }
+                    if (c.equals(("edge"))){
+                        aEdgeList = acElement.getElementsByTagName("attribute");
                     }
                 }
             }
@@ -202,15 +206,15 @@ public class ReadFromFile {
                 dg.setEdgeLabelMap(tempMapE);
             }
 
-            //Parse attributes and store them to a map
-            Map<Long, String> aMap = new HashMap<>();
-            for (int i = 0; i < aList.getLength(); i++){
-                Node nNode = aList.item(i);
+            //Parse node attributes and store them to a map
+            Map<Long, String> aNodeMap = new HashMap<>();
+            for (int i = 0; i < aNodeList.getLength(); i++){
+                Node nNode = aNodeList.item(i);
                 if (nNode.getNodeType() == Node.ELEMENT_NODE) {
                     Element eElement = (Element) nNode;
                     Long id = Long.valueOf( eElement.getAttribute("id"));
                     String title = eElement.getAttribute("title");
-                    aMap.put(id, title);
+                    aNodeMap.put(id, title);
                 }
             }
 
@@ -236,11 +240,11 @@ public class ReadFromFile {
 
                     //Set attributes to current vertex
                     NodeList attList = eElement.getElementsByTagName("attvalue");
-                    for (int j = 0; j < attList.getLength(); j++){
+                    for (int j = 0; j < attList.getLength(); j++) {
                         Node aNode = attList.item(j);
                         if (aNode.getNodeType() == Node.ELEMENT_NODE){
                             Element aElement = (Element) aNode;
-                            String attKey = aMap.get(Long.valueOf(aElement.getAttribute("for")));
+                            String attKey = aNodeMap.get(Long.valueOf(aElement.getAttribute("for")));
                             String attValue = aElement.getAttribute("value");
                             if (attKey.equals("name")) tempV.setName(attValue);
                             else {
@@ -249,6 +253,21 @@ public class ReadFromFile {
                         }
                     }
                     dg.addVertexToMap(tempV);
+                }
+            }
+
+            //Parse edge attributes and store them to a map
+            Map<Long, String> aEdgeMap = new HashMap<>();
+            if (aEdgeList != null) {
+                for (int i = 0; i < aEdgeList.getLength(); i++){
+                    Node nNode = aEdgeList.item(i);
+                    if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+                        Element eElement = (Element) nNode;
+                        Long id = Long.valueOf( eElement.getAttribute("id"));
+                        String title = eElement.getAttribute("title");
+//                        System.out.println(id + ": " + title);
+                        aEdgeMap.put(id, title);
+                    }
                 }
             }
 
@@ -271,7 +290,20 @@ public class ReadFromFile {
                     Vertex to = dg.getVertexById(Long.valueOf(eElement.getAttribute("target")));
                     String label = eElement.getAttribute("label");
                     if (!eLabelMap.containsKey(label)) eLabelMap.put(label, new EdgeLabel(label));
-                    dg.addEdge(new Edge(id, from, to, dg.getEdgeLabelByName(label)));
+
+                    Edge tempEdge = new Edge(id, from, to, dg.getEdgeLabelByName(label));
+                    //Set attributes to current vertex
+                    NodeList attList = eElement.getElementsByTagName("attvalue");
+                    for (int j = 0; j < attList.getLength(); j++) {
+                        Node aNode = attList.item(j);
+                        if (aNode.getNodeType() == Node.ELEMENT_NODE){
+                            Element aElement = (Element) aNode;
+                            String attKey = aEdgeMap.get(Long.valueOf(aElement.getAttribute("for")));
+                            String attValue = aElement.getAttribute("value");
+                            tempEdge.putAttribute(attKey, attValue);
+                        }
+                    }
+                    dg.addEdge(tempEdge);
                 }
             }
         }
