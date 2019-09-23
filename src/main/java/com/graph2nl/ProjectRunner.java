@@ -37,7 +37,6 @@ public class ProjectRunner {
         //parse options and their argument
         Getopt g = new Getopt("Graph2NL", args, "c:v:g:hj");
         int c;
-        String arg;
         while ((c = g.getopt()) != -1) {
             switch(c) {
                 case 'h':
@@ -96,7 +95,6 @@ public class ProjectRunner {
             System.out.print(dg.getJson());
         }
         else {
-            //describe the graph
             dg.describe();
         }
 

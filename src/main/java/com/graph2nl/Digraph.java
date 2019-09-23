@@ -158,41 +158,41 @@ public class Digraph {
     }
 
     /**
-     * Describe this graph
+     * This method describe vertices first
+     * then edges
      */
     public void describe() {
-        final JSONObject graph = this.getJson();
-        graph.keySet().forEach(keyFromV-> {
-            JSONObject fromV = (JSONObject) graph.get(keyFromV);
-            System.out.println(keyFromV + " " + fromV.get("attributes"));
-
-            fromV.keySet().forEach(keyEdge-> {
-                Object edge = fromV.get(keyEdge);
-                String type = edge.getClass().getName();
-                if (type.equals("org.json.simple.JSONArray")) {
-                    System.out.println("\t" + keyEdge);
-                    for (Object toV : (JSONArray) edge) {
-                        String name = "";
-                        String vertexAttr = "";
-                        String edgeAttr = "";
-
-                        for (Object keyToV :  ((JSONObject) toV).keySet()) {
-                            if (keyToV.equals("edgeAttr")) {
-                                edgeAttr = "\t\t" + ((JSONObject) toV).get("edgeAttr").toString();
-                            }
-                            else if (keyToV.equals("attributes")) {
-                                vertexAttr = ((JSONObject) toV).get("attributes").toString();
-                            }
-                            else {
-                                name = "\t\t" + keyToV + ":" + ((JSONObject) toV).get(keyToV).toString();
-                            }
-                        }
-                        System.out.println(name + " " + vertexAttr + "\n" +edgeAttr);
-                        System.out.println();
-                    }
+        List<Vertex> values = new ArrayList(vertexMap.values());
+        Collections.sort(values);
+        for (Vertex v : values) {
+            if (v.getAttributes().size() != 0) {
+                StringBuilder sb = new StringBuilder();
+                sb.append(v.getLabel().getName() + ":");
+                sb.append(v.getName());
+                sb.append("\t" + v.getAttributes());
+                System.out.println(sb.toString());
+            }
+        }
+        System.out.println();
+        updateOut();
+        for (Vertex out : outVertices) {
+            Map<EdgeLabel, List<Edge>> edges = out.getEdgeMap();
+            for (List<Edge> edgeList : edges.values()) {
+                for (Edge edge : edgeList) {
+                    StringBuilder sb = new StringBuilder();
+                    sb.append(out.getLabel().getName() + ":");
+                    sb.append(out.getName() + " ");
+                    sb.append(edge.getLabel().getName() + " ");
+                    Vertex to = vertexMap.get(edge.getTo().getId());
+                    sb.append(to.getLabel().getName() + ":");
+                    sb.append(to.getName());
+                    if (edge.getAttributes().size() != 0)
+                        sb.append("\n" + edge.getAttributes() + "\n");
+                    System.out.println(sb.toString());
                 }
-            });
-        });
+            }
+            System.out.println();
+        }
     }
 
     /**
